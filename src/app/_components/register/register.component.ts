@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/_models/user';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -8,14 +8,29 @@ import { User } from 'src/app/_models/user';
 })
 
 export class RegisterComponent implements OnInit {
-  user: User = {
-    email: "",
-    username: "",
-    password: ""
-  }
-  constructor() { }
+  signup!: FormGroup;
+  hidePassword = true;
+  constructor(private fb: FormBuilder) { }
+
+
 
   ngOnInit() {
+    this.signup = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      passwordConfirmation: ['', Validators.required]
+    });
+  }
+
+  onRegisterPressed() {
+    const email = this.signup.get('email')?.value;
+    const password = this.signup.get('password')?.value;
+    const passwordConfirmation = this.signup.get('passwordConfirmation')?.value;
+    if (password === passwordConfirmation) {
+      console.log(email + ' ' + password);
+    } else {
+      console.log('password mismatch');
+    }
   }
 
 }
