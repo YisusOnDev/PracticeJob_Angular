@@ -5,15 +5,16 @@
       <mat-card-title>Log in</mat-card-title>
     </mat-card-header>
 
-    <form class="login-form" novalidate (ngSubmit)="onLoginPressed()" [formGroup]="login">
+    <form class="login-form" novalidate (ngSubmit)="onLoginPressed()" [formGroup]="loginForm">
       <mat-card-content>
+        <mat-error *ngIf="error">{{error}}</mat-error>
         <mat-form-field class="login-full-width">
           <mat-label>Enter your email</mat-label>
           <input matInput placeholder="practicestudent@practicejob.com" formControlName="email" required>
           <mat-icon matSuffix>email</mat-icon>
-          <mat-error *ngIf="login.get('email')?.hasError('required') && login.get('email')?.touched">Email required
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">Email required
           </mat-error>
-          <mat-error *ngIf="login.get('email')?.hasError('email') && login.get('email')?.touched">Email must be valid
+          <mat-error *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">Email must be valid
           </mat-error>
         </mat-form-field>
         <mat-form-field class="login-full-width">
@@ -25,11 +26,11 @@
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
           <mat-icon matSuffix>lock</mat-icon>
-          <mat-error *ngIf="login.get('password')?.hasError('required') && login.get('password')?.touched">Password
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">Password
             required</mat-error>
         </mat-form-field>
       </mat-card-content>
-      <button mat-stroked-button color="accent" class="btn-block" [disabled]="login.invalid">Log in</button>
+      <button mat-stroked-button color="accent" class="btn-block" [disabled]="loginForm.invalid">Log in</button>
     </form>
   </mat-card>
 </div>

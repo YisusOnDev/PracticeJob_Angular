@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,9 +11,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit {
   signup!: FormGroup;
   hidePassword = true;
-  constructor(private fb: FormBuilder) { }
-
-
+  authenticationService: any;
+  
+  constructor(private fb: FormBuilder,
+    private router: Router,) {
+    if (this.authenticationService.currentCompany) {
+      this.router.navigate(['home']);
+    }
+  }
 
   ngOnInit() {
     this.signup = this.fb.group({
