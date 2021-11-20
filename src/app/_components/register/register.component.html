@@ -5,15 +5,15 @@
       <mat-card-title>Sign Up</mat-card-title>
     </mat-card-header>
 
-    <form class="login-form" novalidate (ngSubmit)="onRegisterPressed()" [formGroup]="signup">
+    <form class="login-form" novalidate (ngSubmit)="onRegisterPressed()" [formGroup]="signupForm">
       <mat-card-content>
         <mat-form-field class="login-full-width">
           <mat-label>Enter your email</mat-label>
           <input matInput placeholder="practicestudent@practicejob.com" formControlName="email" required>
           <mat-icon matSuffix>email</mat-icon>
-          <mat-error *ngIf="signup.get('email')?.hasError('required') && signup.get('email')?.touched">Email required
+          <mat-error *ngIf="signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched">Email required
           </mat-error>
-          <mat-error *ngIf="signup.get('email')?.hasError('email') && signup.get('email')?.touched">Email must be valid
+          <mat-error *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched">Email must be valid
           </mat-error>
         </mat-form-field>
         <mat-form-field class="login-full-width">
@@ -25,7 +25,7 @@
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
           <mat-icon matSuffix>lock</mat-icon>
-          <mat-error *ngIf="signup.get('password')?.hasError('required') && signup.get('password')?.touched">Password
+          <mat-error *ngIf="signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched">Password
             required</mat-error>
         </mat-form-field>
         <mat-form-field class="login-full-width">
@@ -38,12 +38,12 @@
           </button>
           <mat-icon matSuffix>lock</mat-icon>
           <mat-error
-            *ngIf="signup.get('passwordConfirmation')?.hasError('required') && signup.get('passwordConfirmation')?.touched">
+            *ngIf="signupForm.get('passwordConfirmation')?.hasError('required') && signupForm.get('passwordConfirmation')?.touched">
             Password confirmation
             required</mat-error>
         </mat-form-field>
       </mat-card-content>
-      <button mat-stroked-button color="accent" class="btn-block" [disabled]="signup.invalid">Sign up</button>
+      <button mat-stroked-button color="accent" class="btn-block" [disabled]="signupForm.invalid">Sign up</button>
     </form>
   </mat-card>
 </div>

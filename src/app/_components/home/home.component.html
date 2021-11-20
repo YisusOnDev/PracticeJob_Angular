@@ -1,2 +1,18 @@
-<br><br><br><br><br><br><br><br><br><br><br><br><br>
-<p>IT WORKS!</p>
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Search City</mat-card-title>
+    </mat-card-header>
+    <mat-card-component>
+      <mat-form-field class="login-full-width">
+        <mat-label>Enter a number</mat-label>
+        <input matInput type="number" min="1" max="52" placeholder="1" [(ngModel)]="enteredId" required>
+        <mat-icon matSuffix>apartment</mat-icon>
+      </mat-form-field>
+      <button mat-stroked-button color="accent" class="btn-block" (click)="onSearch()">Search</button>
+    </mat-card-component>
+    <ng-container *ngIf="province">
+      City results: {{province.id}} | {{province.name}}
+    </ng-container>
+  </mat-card>
+</div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -9,33 +11,49 @@ import { Router } from '@angular/router';
 })
 
 export class RegisterComponent implements OnInit {
-  signup!: FormGroup;
+  signupForm!: FormGroup;
   hidePassword = true;
-  authenticationService: any;
-  
-  constructor(private fb: FormBuilder,
-    private router: Router,) {
-    if (this.authenticationService.currentCompany) {
+
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authenticationService: AuthenticationService) {
+    if (this.authenticationService.currentCompanyValue != null) {
       this.router.navigate(['home']);
     }
   }
 
   ngOnInit() {
-    this.signup = this.fb.group({
+    this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      passwordConfirmation: ['', Validators.required]
+      passwordConfirmation: ['', Validators.required],
     });
   }
 
+  get f() { return this.signupForm.controls }
+
   onRegisterPressed() {
-    const email = this.signup.get('email')?.value;
-    const password = this.signup.get('password')?.value;
-    const passwordConfirmation = this.signup.get('passwordConfirmation')?.value;
-    if (password === passwordConfirmation) {
-      console.log(email + ' ' + password);
+    if (this.signupForm.invalid) {
+      return;
+    }
+
+    if (this.f.password.value === this.f.passwordConfirmation.value) {
+
+      this.authenticationService.create(this.f.email.value, this.f.password.value)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.router.navigate(['completeprofile']);
+          },
+          error: error => {
+            alert(error);
+          }
+        });
     } else {
-      console.log('password mismatch');
+      alert("Passwords does not match");
+      return;
     }
   }
 
