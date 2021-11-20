@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "IntegratedProyectAngularWebApp": {
+    "PracticeJob": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/IntegratedProyectAngularWebApp",
+            "outputPath": "dist/PracticeJob",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "IntegratedProyectAngularWebApp:build:production"
+              "browserTarget": "PracticeJob:build:production"
             },
             "development": {
-              "browserTarget": "IntegratedProyectAngularWebApp:build:development"
+              "browserTarget": "PracticeJob:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "IntegratedProyectAngularWebApp:build"
+            "browserTarget": "PracticeJob:build"
           }
         },
         "test": {
@@ -105,5 +105,5 @@
       }
     }
   },
-  "defaultProject": "IntegratedProyectAngularWebApp"
+  "defaultProject": "PracticeJob"
 }
