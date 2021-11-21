@@ -23,7 +23,6 @@ export class CompleteProfileComponent implements OnInit {
     private router: Router, 
     private provinceService: ProvinceService,
     private authenticationService: AuthenticationService) {
-      alert(JSON.stringify(this.authenticationService.currentCompanyValue));
       if (this.authenticationService.currentCompanyValue != null) {
         if(this.authenticationService.currentCompanyValue.name != undefined || this.authenticationService.currentCompanyValue.name != null){
           this.router.navigate(['/home']);
