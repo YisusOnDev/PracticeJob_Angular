@@ -11,7 +11,9 @@ import { AuthenticationService } from 'src/app/_services/auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  signupForm!: FormGroup;
   hidePassword = true;
+  currentPage = 'login';
 
   constructor(
     private fb: FormBuilder,
@@ -28,9 +30,27 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+
+    this.signupForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      passwordConfirmation: ['', Validators.required],
+    });
   }
 
-  get f() { return this.loginForm.controls }
+  getPageTitle() {
+    return (this.currentPage == "login") ? 'Inicio de sesión' : (this.currentPage == "register") ? 'Nueva cuenta' : 'Inicio de sesión'
+  }
+
+  toggleCurrentPage() {
+    if (this.currentPage == 'login'){
+      this.currentPage = 'register'
+    } else {
+      this.currentPage = 'login'
+    }
+  }
+
+  get f() { return (this.currentPage == "login") ? this.loginForm.controls : (this.currentPage == "register") ? this.signupForm.controls : this.loginForm.controls }
 
   onLoginPressed() {
 
@@ -45,7 +65,7 @@ export class LoginComponent implements OnInit {
         next: () => {
           // Check if user/company profile is completed in order to prompt completeProfile page 
           if (this.authenticationService.currentCompanyValue.name == null) {
-            this.router.navigate(['/completeprofile']);
+            this.router.navigate(['completeprofile']);
           } else {
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
             this.router.navigate([returnUrl]);
@@ -55,6 +75,29 @@ export class LoginComponent implements OnInit {
           alert("Invalid credentials");
         }
       });
+  }
+
+  onRegisterPressed() {
+    if (this.signupForm.invalid) {
+      return;
+    }
+
+    if (this.f.password.value === this.f.passwordConfirmation.value) {
+
+      this.authenticationService.create(this.f.email.value, this.f.password.value)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.router.navigate(['completeprofile']);
+          },
+          error: error => {
+            alert(error);
+          }
+        });
+    } else {
+      alert("Passwords does not match");
+      return;
+    }
   }
 
 }

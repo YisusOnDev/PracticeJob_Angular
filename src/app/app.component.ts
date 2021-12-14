@@ -19,7 +19,7 @@ export class AppComponent {
     this.authenticationService.currentCompany.subscribe(x => this.currentCompany = x);
 
     if (this.loggedIn() == true) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['home']);
     }
   }
 
@@ -33,7 +33,7 @@ export class AppComponent {
 
   logout() {
     this.authenticationService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['login']);
   }
 
 }

@@ -1,0 +1,21 @@
+.sidenav-container {
+  display: block;
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.toolbaritem-spacer {
+  flex: 1 1 auto;
+}
+
+.active-list-item {
+  color: #6f35a5 !important; /* Note: You could also use a custom theme */
+}

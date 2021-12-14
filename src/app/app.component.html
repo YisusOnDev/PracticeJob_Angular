@@ -1,12 +1,2 @@
-<mat-toolbar color="primary" class="app-header">
-  <span class="nav-tool-items">
-    <a mat-button routerLink="login" routerLinkActive="active" *ngIf="loggedIn() == false">Log in</a>
-    <a mat-button mat-raised-button routerLink="register" routerLinkActive="active"
-      *ngIf="loggedIn() == false">Register</a>
-    <a mat-button routerLink="home" routerLinkActive="active" *ngIf="loggedIn() == true">Home</a>
-  </span>
-  <span class="nav-tool-items">
-    <a mat-button (click)="logout()" *ngIf="loggedIn() == true">Logout</a>
-  </span>
-</mat-toolbar>
-<router-outlet></router-outlet>
+<app-navigation *ngIf="loggedIn() == true"></app-navigation>
+<app-login *ngIf="loggedIn() == false"></app-login>

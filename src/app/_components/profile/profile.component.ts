@@ -1,3 +1,4 @@
+import { AppService } from 'src/app/_services/app.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,29 +8,26 @@ import { AuthenticationService } from 'src/app/_services/auth.service';
 import { ProvinceService } from 'src/app/_services/province.service';
 
 @Component({
-  selector: 'app-complete-profile',
-  templateUrl: './complete-profile.component.html',
-  styleUrls: ['./complete-profile.component.css']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
+export class ProfileComponent implements OnInit {
 
-export class CompleteProfileComponent implements OnInit {
   form!: FormGroup;
   hidePassword = true;
-  
+
   provinces!: Province[];
 
   constructor(
+    private appService: AppService,
     private fb: FormBuilder,
-    private router: Router, 
+    private router: Router,
     private provinceService: ProvinceService,
     private authenticationService: AuthenticationService) {
-      if (this.authenticationService.currentCompanyValue != null) {
-        if(this.authenticationService.currentCompanyValue.name != undefined || this.authenticationService.currentCompanyValue.name != null){
-          this.router.navigate(['home']);
-        }
-      } else {
-        this.router.navigate(['/']);
-      }
+    if (this.authenticationService.currentCompanyValue == null || this.authenticationService.currentCompanyValue.name == undefined || this.authenticationService.currentCompanyValue.name == null) {
+      this.router.navigate(['completeprofile']);
+    }
   }
 
   ngOnInit() {
@@ -40,9 +38,14 @@ export class CompleteProfileComponent implements OnInit {
     });
     this.provinceService.getAll().pipe(first()).subscribe(provinces => {
       this.provinces = provinces;
-    }); 
+    });
+
+    setTimeout(() => {
+      this.appService.setTitle('Perfil');
+    });
+
   }
-  
+
   get f() { return this.form.controls }
 
   onSubmit() {

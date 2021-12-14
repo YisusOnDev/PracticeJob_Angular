@@ -1,9 +1,7 @@
-import { AuthenticationService } from 'src/app/_services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
-import { Province } from 'src/app/_models/province';
-import { ProvinceService } from 'src/app/_services/province.service';
 import { Router } from '@angular/router';
+import { AppService } from 'src/app/_services/app.service';
+import { AuthenticationService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -13,28 +11,16 @@ import { Router } from '@angular/router';
 })
 
 export class HomeComponent implements OnInit {
-  province!: Province;
-  enteredId?: number;
-  displayedColumns = ["Id", "Name"];
 
-  constructor(private provinceService: ProvinceService, private authenticationService: AuthenticationService, private router: Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router, private appService: AppService) {
     if (this.authenticationService.currentCompanyValue.name == null) {
       this.router.navigate(['/completeprofile']);
+
     }
   }
-
-  ngOnInit() { }
-
-  onSearch() {
-    // Check if enteredId (number) is valid
-    if (this.enteredId != undefined && this.enteredId > 0 && this.enteredId < 53) {
-      this.provinceService.getFromId(this.enteredId).pipe(first()).subscribe(province => {
-        this.province = province;
-      });
-    } else {
-      alert("Invalid number");
-      return;
-    }
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.appService.setTitle('Inicio');
+    });
   }
-
 }
