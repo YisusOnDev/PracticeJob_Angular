@@ -1,3 +1,4 @@
+import { Company } from './../../_models/company';
 import { AppService } from 'src/app/_services/app.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,10 +14,9 @@ import { ProvinceService } from 'src/app/_services/province.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
   form!: FormGroup;
   hidePassword = true;
-
+  currentCompany!: Company;
   provinces!: Province[];
 
   constructor(
@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private provinceService: ProvinceService,
     private authenticationService: AuthenticationService) {
+    this.authenticationService.currentCompany.subscribe(x => this.currentCompany = x);
     if (this.authenticationService.currentCompanyValue == null || this.authenticationService.currentCompanyValue.name == undefined || this.authenticationService.currentCompanyValue.name == null) {
       this.router.navigate(['completeprofile']);
     }
@@ -32,12 +33,13 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      name: ['', Validators.required],
-      address: ['', Validators.required],
+      name: [this.currentCompany.name, Validators.required],
+      address: [this.currentCompany.address, Validators.required],
       province: ['', Validators.required]
     });
     this.provinceService.getAll().pipe(first()).subscribe(provinces => {
       this.provinces = provinces;
+      console.log("Provinces setted");
     });
 
     setTimeout(() => {

@@ -11,16 +11,18 @@ import { AuthenticationService } from 'src/app/_services/auth.service';
 })
 
 export class HomeComponent implements OnInit {
-
   constructor(private authenticationService: AuthenticationService, private router: Router, private appService: AppService) {
     if (this.authenticationService.currentCompanyValue.name == null) {
       this.router.navigate(['/completeprofile']);
-
     }
   }
   ngOnInit(): void {
     setTimeout(() => {
       this.appService.setTitle('Inicio');
     });
+  }
+
+  addButtonPressed() {
+    alert("En proceso...");
   }
 }

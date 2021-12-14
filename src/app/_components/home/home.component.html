@@ -1,3 +1,20 @@
-<div fxLayoutAlign="center center">
-  <h2>¡Bienvenido a tu panel de control de PracticeJob!</h2>
+<div class="grid-container">
+  <h1 class="mat-h1">Panel de control</h1>
+  <mat-grid-list cols="2" rowHeight="75vh">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>
+          Últimas ofertas publicadas
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <div>En proceso...</div>
+      </mat-card-content>
+    </mat-card>
+    <div class="custom-fab-button-container">
+      <button mat-fab (click)="addButtonPressed()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-grid-list>
 </div>

@@ -9,7 +9,7 @@
     <mat-icon mat-list-icon class="material-icons">account_box</mat-icon>
   </button>
   <mat-menu #profileMenu="matMenu">
-    <button mat-menu-item>Perfil</button>
+    <button mat-menu-item routerLink="profile">Perfil</button>
     <button mat-menu-item (click)="logout()">Cerrar sesión</button>
   </mat-menu>
   <!-- Profile Menu END-->
@@ -18,13 +18,13 @@
   <mat-sidenav #drawer class="sidenav" class="sidenav" mode="side" fixedInViewport="false"
     [opened]="(isHandset$ | async) === false">
     <mat-nav-list>
-      <mat-list-item routerLinkActive="active-list-item">
+      <mat-list-item routerLinkActive="active-list-item" routerLink="home">
         <mat-icon mat-list-icon class="material-icons">home</mat-icon>
-        <a mat-line routerLink="home">Inicio</a>
+        <a mat-line>Inicio</a>
       </mat-list-item>
-      <mat-list-item routerLinkActive="active-list-item">
+      <mat-list-item routerLinkActive="active-list-item" routerLink="profile">
         <mat-icon mat-list-icon class="material-icons">account_circle</mat-icon>
-        <a mat-line routerLink="profile">Mi perfil</a>
+        <a mat-line>Mi perfil</a>
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
