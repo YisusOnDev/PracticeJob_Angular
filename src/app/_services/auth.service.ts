@@ -71,7 +71,7 @@ export class AuthenticationService {
     update(company: Company) {
         const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         const jsonToSend = JSON.stringify(company);
-        return this.http.put<any>(`${environment.apiUrl}/Company/Update`, jsonToSend, { headers })
+        return this.http.put<any>(`${environment.apiUrl}/Company`, jsonToSend, { headers })
             .pipe(map(result => {
                 // Map result to a company object with token
                 var company = new Company(result.id, result.email, result.name, result.address, result.provinceId, result.province, this.currentCompanyValue.token);
