@@ -12,7 +12,7 @@ export class ProvinceService {
      * @returns List of Province (Object)
      */
     getAll() {
-        return this.http.get<Province[]>(`${environment.apiUrl}/Province/GetAll`);
+        return this.http.get<Province[]>(`${environment.apiUrl}/Province/All`);
     }
 
     /**
@@ -21,6 +21,6 @@ export class ProvinceService {
      * @returns Province Object
      */
     getFromId(id: number) {
-        return this.http.get<Province>(`${environment.apiUrl}/Province/Get?id=` + id);
+        return this.http.get<Province>(`${environment.apiUrl}/Province/?id=` + id);
     }
 }
