@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   toggleCurrentPage() {
-    if (this.currentPage == 'login'){
+    if (this.currentPage == 'login') {
       this.currentPage = 'register'
     } else {
       this.currentPage = 'login'
@@ -99,5 +99,4 @@ export class LoginComponent implements OnInit {
       return;
     }
   }
-
 }

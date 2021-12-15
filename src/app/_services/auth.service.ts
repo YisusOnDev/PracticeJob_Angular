@@ -64,14 +64,14 @@ export class AuthenticationService {
     }
 
     /**
-     * API POST Request method that updates a company details
+     * API PUT Request method that updates a company details
      * @param company Company Object
      * @returns Company Updated Object
      */
     update(company: Company) {
         const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         const jsonToSend = JSON.stringify(company);
-        return this.http.post<any>(`${environment.apiUrl}/Company/Update`, jsonToSend, { headers })
+        return this.http.put<any>(`${environment.apiUrl}/Company/Update`, jsonToSend, { headers })
             .pipe(map(result => {
                 // Map result to a company object with token
                 var company = new Company(result.id, result.email, result.name, result.address, result.provinceId, result.province, this.currentCompanyValue.token);
