@@ -8,6 +8,8 @@
     left: 15px;
     right: 15px;
     bottom: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 .more-button {
@@ -23,7 +25,7 @@
 .custom-fab-button-container {
     display: flex;
     justify-content: flex-end;
-    width: 100%;
+    width: 99%;
 }
 
 .form {
@@ -33,5 +35,9 @@
 }
 
 .form-full-width {
+    width: 100%;
+}
+
+table {
     width: 100%;
 }

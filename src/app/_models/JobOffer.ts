@@ -1,7 +1,10 @@
+import { Company } from "./company";
 import { FP } from "./FP";
 
 export class JobOffer {
     id?: number;
+    companyId: number;
+    company: Company;
     name: string;
     description: string;
     remuneration: number;
@@ -10,10 +13,12 @@ export class JobOffer {
     endDate: Date;
     fps: FP[];
 
-    constructor(name: string, description: string, remuneration: number, startDate: Date, endDate: Date, fps: FP[], schedule?: string, id?: number,) {
+    constructor(name: string, companyId: number, company: Company, description: string, remuneration: number, startDate: Date, endDate: Date, fps: FP[], schedule?: string, id?: number,) {
         if (id != undefined) {
             this.id = id
         }
+        this.companyId = companyId
+        this.company = company
         this.name = name
         this.description = description
         this.remuneration = remuneration

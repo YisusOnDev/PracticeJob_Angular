@@ -71,17 +71,29 @@ export class AuthenticationService {
     update(company: Company) {
         const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         const jsonToSend = JSON.stringify(company);
-        console.log(jsonToSend);
         return this.http.put<any>(`${environment.apiUrl}/Company`, jsonToSend, { headers })
             .pipe(map(result => {
                 // Map result to a company object with token
-                console.log(result);
                 var company = new Company(result.id, result.email, result.name, result.address, result.provinceId, result.province, this.currentCompanyValue.token);
 
                 // Store new company details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentCompany', JSON.stringify(company));
                 this.currentCompanySubject.next(company);
                 return company;
+            }));
+    }
+
+    /**
+     * API POST Request method that check if user token is valid
+     * @returns token valid or not
+     */
+    authorized() {
+        const companyJson = JSON.stringify(this.currentCompanyValue);
+        const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+
+        return this.http.post<any>(`${environment.apiUrl}/Company/Authorized`, { companyJson }, { headers })
+            .pipe(map(result => {
+                return result;
             }));
     }
 

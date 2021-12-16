@@ -1,3 +1,4 @@
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -15,6 +16,7 @@ import { NavigationComponent } from './_components/navigation/navigation.compone
 import { ProfileComponent } from './_components/profile/profile.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
+import { getSpanishPaginatorIntl } from './_helpers/mat-paginator-es';
 
 
 @NgModule({
@@ -40,6 +42,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl()},
     AppService
   ],
   bootstrap: [AppComponent]
