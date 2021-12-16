@@ -39,7 +39,6 @@ export class ProfileComponent implements OnInit {
     });
     this.provinceService.getAll().pipe(first()).subscribe(provinces => {
       this.provinces = provinces;
-      console.log("Provinces setted");
     });
 
     setTimeout(() => {
@@ -66,6 +65,7 @@ export class ProfileComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
+          alert("Has cambiado tus ajustes");
           this.router.navigate(['home']);
         },
         error: error => {

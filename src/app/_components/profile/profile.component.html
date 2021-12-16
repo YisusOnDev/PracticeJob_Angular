@@ -1,47 +1,52 @@
-
-<div fxLayout="row" fxLayout.xs="column">
-  <mat-card fxFlex="40%;" fxFlex.xs="80%">
-    <mat-card-content>
-      <mat-card-header>
-        <mat-card-title>{{currentCompany.name}}</mat-card-title>
-      </mat-card-header>
-      {{currentCompany.address}} - {{currentCompany.province?.name}}
-    </mat-card-content>
-  </mat-card>
-  <mat-card fxFlex="60%;" fxFlex.xs="80%">
-    <mat-card-content>
-      <mat-card-title style="text-align:center;">Editar perfil</mat-card-title>
-      <mat-card-content>
-        <form novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+<div class="grid-container">
+  <h1 class="mat-h1">Ajustes - {{currentCompany.name}}</h1>
+  <mat-grid-list cols="2" rowHeight="75vh">
+    <div fxLayout="row" fxLayout.xs="column">
+      <mat-card fxFlex="40%;" fxFlex.xs="80%">
+        <mat-card-header>
+          <mat-card-title>Empresa: {{currentCompany.name}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          Dirección: {{currentCompany.address}} - {{currentCompany.province?.name}}
+        </mat-card-content>
+      </mat-card>
+      <mat-card fxFlex="60%;" fxFlex.xs="80%">
+        <mat-card-content>
+          <mat-card-title style="text-align:center;">Editar perfil</mat-card-title>
           <mat-card-content>
-            <mat-form-field style="width: 100%;">
-              <mat-label>Nombre de la empresa</mat-label>
-              <input matInput placeholder="PracticeJob SL" formControlName="name" required>
-              <mat-icon matSuffix>business</mat-icon>
-            </mat-form-field>
+            <form novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+              <mat-card-content>
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Nombre de la empresa</mat-label>
+                  <input matInput placeholder="PracticeJob SL" formControlName="name" required>
+                  <mat-icon matSuffix>business</mat-icon>
+                </mat-form-field>
+              </mat-card-content>
+              <mat-card-content>
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Dirección de la empresa</mat-label>
+                  <input matInput placeholder="4th of Wellington Street Floor 4 Door B" formControlName="address"
+                    required>
+                  <mat-icon matSuffix>location_city</mat-icon>
+                </mat-form-field>
+              </mat-card-content>
+              <mat-card-content>
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Provincia</mat-label>
+                  <mat-select formControlName="province" value="{{currentCompany.province}}" required>
+                    <mat-option *ngFor="let province of provinces" [value]="province">
+                      {{province.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-stroked-button color="accent" [disabled]="form.invalid">Guardar perfil</button>
+              </mat-card-actions>
+            </form>
           </mat-card-content>
-          <mat-card-content>
-            <mat-form-field style="width: 100%;">
-              <mat-label>Dirección de la empresa</mat-label>
-              <input matInput placeholder="4th of Wellington Street Floor 4 Door B" formControlName="address" required>
-              <mat-icon matSuffix>location_city</mat-icon>
-            </mat-form-field>
-          </mat-card-content>
-          <mat-card-content>
-            <mat-form-field style="width: 100%;">
-              <mat-label>Provincia</mat-label>
-              <mat-select formControlName="province" value="{{currentCompany.province}}" required>
-                <mat-option *ngFor="let province of provinces" [value]="province">
-                  {{province.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-stroked-button color="accent" [disabled]="form.invalid">Guardar perfil</button>
-          </mat-card-actions>
-        </form>
-      </mat-card-content>
-    </mat-card-content>
-  </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-grid-list>
 </div>
