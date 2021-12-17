@@ -11,18 +11,18 @@ export class AuthenticationService {
     public currentCompany: Observable<Company>;
 
     constructor(private http: HttpClient) {
-        this.currentCompanySubject = new BehaviorSubject<Company>(JSON.parse(localStorage.getItem('currentCompany')!));
+        this.currentCompanySubject = new BehaviorSubject<Company>(JSON.parse(sessionStorage.getItem('currentCompany')!));
         this.currentCompany = this.currentCompanySubject.asObservable();
     }
     /**
-     * Get current localStorage data from User
+     * Get current sessionStorage data from User
      */
     public get currentCompanyValue(): Company {
         return this.currentCompanySubject.value;
     }
 
     /**
-     * API POST Request method that send a login request. If login is correct save data to localstorage (including jwt token)
+     * API POST Request method that send a login request. If login is correct save data to sessionStorage (including jwt token)
      * @param email
      * @param password 
      * @returns Company Object
@@ -36,7 +36,7 @@ export class AuthenticationService {
                 var company = new Company(result.data.id, result.data.email, result.data.name, result.data.address, result.data.provinceId, result.data.province, result.token);
 
                 // Store company details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentCompany', JSON.stringify(company));
+                sessionStorage.setItem('currentCompany', JSON.stringify(company));
                 this.currentCompanySubject.next(company);
                 return company;
             }));
@@ -57,7 +57,7 @@ export class AuthenticationService {
                 var company = new Company(result.data.id, result.data.email, result.data.name, result.data.address, result.data.provinceId, result.data.province, result.token);
 
                 // Store new company details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentCompany', JSON.stringify(company));
+                sessionStorage.setItem('currentCompany', JSON.stringify(company));
                 this.currentCompanySubject.next(company);
                 return company;
             }));
@@ -77,7 +77,7 @@ export class AuthenticationService {
                 var company = new Company(result.id, result.email, result.name, result.address, result.provinceId, result.province, this.currentCompanyValue.token);
 
                 // Store new company details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentCompany', JSON.stringify(company));
+                sessionStorage.setItem('currentCompany', JSON.stringify(company));
                 this.currentCompanySubject.next(company);
                 return company;
             }));
@@ -98,11 +98,11 @@ export class AuthenticationService {
     }
 
     /**
-     * Method used to log out the user and removes all localstorage information
+     * Method used to log out the user and removes all sessionStorage information
      */
     logout() {
         // Remove user company from local storage to log user out
-        localStorage.removeItem('currentCompany');
+        sessionStorage.removeItem('currentCompany');
         this.currentCompanySubject.next(null!);
     }
 }

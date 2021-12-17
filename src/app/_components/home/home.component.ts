@@ -107,6 +107,16 @@ export class HomeComponent implements OnInit {
 
   // Open Edit Offer Dialog Form
   editSelectedOffer(offer: JobOffer) {
+    var pickedFps: FP[] = []
+    this.fpList.forEach(element => {
+      offer.fPs.forEach(selected => {
+        if (element.id == selected.id) {
+          pickedFps.push(this.fpList[this.fpList.indexOf(element)]);
+        }
+      })
+    });
+    console.log(pickedFps)
+
     this.editOfferForm = this.fb.group({
       id: [offer.id],
       name: [offer.name, [Validators.required]],
@@ -115,7 +125,7 @@ export class HomeComponent implements OnInit {
       schedule: [offer.schedule],
       startDate: [offer.startDate, Validators.required],
       endDate: [offer.endDate, Validators.required],
-      fps: ['', [Validators.required]],
+      fps: [pickedFps, [Validators.required]],
     });
     this.dialog.open(this.editOfferDialogForm);
   }

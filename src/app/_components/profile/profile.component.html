@@ -33,7 +33,7 @@
               <mat-card-content>
                 <mat-form-field style="width: 100%;">
                   <mat-label>Provincia</mat-label>
-                  <mat-select formControlName="province" value="{{currentCompany.province}}" required>
+                  <mat-select formControlName="province" required>
                     <mat-option *ngFor="let province of provinces" [value]="province">
                       {{province.name}}
                     </mat-option>

@@ -10,6 +10,14 @@ export class JobOfferService {
     constructor(private http: HttpClient) { }
 
     /**
+     * API [AUTHORIZED] Get Request method that gets an offer by his id from DB
+     * @returns offer (Object)
+     */
+     get(id: number) {
+        return this.http.get<JobOffer>(`${environment.apiUrl}/JobOffer?offerId=`+id);
+    }
+
+    /**
      * API [AUTHORIZED] Get Request method that gets all available fps from DB
      * @returns List of FPs (Object)
      */

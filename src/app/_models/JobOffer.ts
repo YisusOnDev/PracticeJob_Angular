@@ -11,7 +11,7 @@ export class JobOffer {
     schedule?: string;
     startDate: Date;
     endDate: Date;
-    fps: FP[];
+    fPs: FP[];
 
     constructor(name: string, companyId: number, company: Company, description: string, remuneration: number, startDate: Date, endDate: Date, fps: FP[], schedule?: string, id?: number,) {
         if (id != undefined) {
@@ -24,7 +24,7 @@ export class JobOffer {
         this.remuneration = remuneration
         this.startDate = startDate
         this.endDate = endDate
-        this.fps = fps
+        this.fPs = fps
         if (schedule != undefined) {
             this.schedule = schedule
         }

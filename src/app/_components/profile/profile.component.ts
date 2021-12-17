@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { Province } from 'src/app/_models/province';
 import { AuthenticationService } from 'src/app/_services/auth.service';
 import { ProvinceService } from 'src/app/_services/province.service';
+import { getCurrentProvinceIndex } from 'src/app/_helpers/utils';
 
 @Component({
   selector: 'app-profile',
@@ -39,6 +40,8 @@ export class ProfileComponent implements OnInit {
     });
     this.provinceService.getAll().pipe(first()).subscribe(provinces => {
       this.provinces = provinces;
+      
+      this.form.controls.province.setValue(this.provinces[getCurrentProvinceIndex(this.provinces, this.currentCompany.provinceId)])
     });
 
     setTimeout(() => {
@@ -66,7 +69,7 @@ export class ProfileComponent implements OnInit {
       .subscribe({
         next: () => {
           alert("Has cambiado tus ajustes");
-          this.router.navigate(['home']);
+          this.router.navigate(['profile']);
         },
         error: error => {
           alert(error);
