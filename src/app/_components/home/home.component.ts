@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
     this.refreshOffersTable();
 
     this.newOfferForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.max(65)]],
       description: ['', Validators.required],
       remuneration: [0, Validators.required],
       schedule: [''],
