@@ -30,7 +30,7 @@ export class JobOfferService {
      * @returns List of FPs (Object)
      */
     getAllFromCompanyId(id: number) {
-        return this.http.get<JobOffer[]>(`${environment.apiUrl}/JobOffer/AllFromId?companyId=` + id);
+        return this.http.get<JobOffer[]>(`${environment.apiUrl}/JobOffer/AllFromCompany?companyId=` + id);
     }
 
     /**
