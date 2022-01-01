@@ -1,3 +1,4 @@
+import { JobApplication } from './../../_models/JobOffer';
 import { FP } from 'src/app/_models/FP';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -11,7 +12,7 @@ import { AppService } from 'src/app/_services/app.service';
 import { AuthenticationService } from 'src/app/_services/auth.service';
 import { FPService } from 'src/app/_services/fp.service';
 import { JobOfferService } from 'src/app/_services/job-offer.service';
-import { JobOffer } from 'src/app/_models/joboffer';
+import { JobOffer } from 'src/app/_models/JobOffer';
 
 @Component({
   selector: 'app-home',
@@ -84,7 +85,9 @@ export class HomeComponent implements OnInit {
 
     const f = this.newOfferForm.controls;
     var company = this.authenticationService.currentCompanyValue;
-    var newOffer = new JobOffer(f.name.value, company.id, company, f.description.value, f.remuneration.value, f.startDate.value, f.endDate.value, f.fps.value, f.schedule.value);
+    var emptyJobApplications: JobApplication[] = [];
+
+    var newOffer = new JobOffer(f.name.value, company.id, company, f.description.value, f.remuneration.value, f.startDate.value, f.endDate.value, f.fps.value, emptyJobApplications, f.schedule.value);
     this.jobOfferService.create(newOffer)
       .pipe(first())
       .subscribe({
@@ -116,6 +119,9 @@ export class HomeComponent implements OnInit {
   // Open Edit Offer Dialog Form
   editSelectedOffer(offer: JobOffer) {
     var pickedFps: FP[] = []
+
+    var currentJobApplications = offer.jobApplications;
+
     this.fpList.forEach(element => {
       offer.fPs.forEach(selected => {
         if (element.id == selected.id) {
@@ -134,6 +140,7 @@ export class HomeComponent implements OnInit {
       startDate: [offer.startDate, Validators.required],
       endDate: [offer.endDate, Validators.required],
       fps: [pickedFps, [Validators.required]],
+      jobApplications: [currentJobApplications],
     });
     this.dialog.open(this.editOfferDialogForm);
   }
@@ -148,7 +155,7 @@ export class HomeComponent implements OnInit {
 
     const f = this.editOfferForm.controls;
     var company = this.authenticationService.currentCompanyValue;
-    var newOffer = new JobOffer(f.name.value, company.id, company, f.description.value, f.remuneration.value, f.startDate.value, f.endDate.value, f.fps.value, f.schedule.value, f.id.value);
+    var newOffer = new JobOffer(f.name.value, company.id, company, f.description.value, f.remuneration.value, f.startDate.value, f.endDate.value, f.fps.value, f.jobApplications.value, f.schedule.value, f.id.value);
     this.jobOfferService.update(newOffer)
       .pipe(first())
       .subscribe({
@@ -166,7 +173,6 @@ export class HomeComponent implements OnInit {
   // Refresh offers table data
   refreshOffersTable() {
     this.jobOfferService.getAllFromCompanyId(this.authenticationService.currentCompanyValue.id).pipe(first()).subscribe(offers => {
-      alert(JSON.stringify(offers));
       this.companyOffersTable = offers;
       this.tableDataSource = new MatTableDataSource<JobOffer>(this.companyOffersTable);
       this.tableDataSource.paginator = this.paginator;

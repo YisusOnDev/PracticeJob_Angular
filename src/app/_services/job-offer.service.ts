@@ -1,4 +1,4 @@
-import { JobOffer } from 'src/app/_models/joboffer';
+import { JobOffer } from 'src/app/_models/JobOffer';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
@@ -12,8 +12,8 @@ export class JobOfferService {
      * API [AUTHORIZED] Get Request method that gets an offer by his id from DB
      * @returns offer (Object)
      */
-     get(id: number) {
-        return this.http.get<JobOffer>(`${environment.apiUrl}/JobOffer?offerId=`+id);
+    get(id: number) {
+        return this.http.get<JobOffer>(`${environment.apiUrl}/JobOffer?offerId=` + id);
     }
 
     /**

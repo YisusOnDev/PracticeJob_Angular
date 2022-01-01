@@ -17,7 +17,7 @@ import { ProfileComponent } from './_components/profile/profile.component';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { getSpanishPaginatorIntl } from './_helpers/mat-paginator-es';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import { getSpanishPaginatorIntl } from './_helpers/mat-paginator-es';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ScrollingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

@@ -66,7 +66,17 @@
                         Horas: {{element.schedule}}
                       </p>
                     </mat-tab>
-                    <mat-tab label="Inscripciones"> Content 2 </mat-tab>
+                    <mat-tab label="Inscripciones">
+                      <div class="cdk-virtual-scroll-data-source-example">
+                        <cdk-virtual-scroll-viewport orientation="horizontal" itemSize="50" class="example-viewport">
+                          <div>Test</div>
+                          <div>Test</div>
+                          <div>Test</div>
+                          <div>Test</div>
+                          <div>Test</div>
+                        </cdk-virtual-scroll-viewport>
+                      </div>
+                    </mat-tab>
                   </mat-tab-group>
                 </mat-card>
               </div>
