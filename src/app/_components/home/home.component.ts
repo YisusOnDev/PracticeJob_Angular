@@ -1,22 +1,29 @@
+import { FP } from 'src/app/_models/FP';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { FP } from 'src/app/_models/FP';
-import { JobOffer } from 'src/app/_models/JobOffer';
 import { AppService } from 'src/app/_services/app.service';
 import { AuthenticationService } from 'src/app/_services/auth.service';
 import { FPService } from 'src/app/_services/fp.service';
 import { JobOfferService } from 'src/app/_services/job-offer.service';
+import { JobOffer } from 'src/app/_models/joboffer';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('250ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 
 export class HomeComponent implements OnInit {
@@ -28,9 +35,10 @@ export class HomeComponent implements OnInit {
   newOfferForm!: FormGroup;
   editOfferForm!: FormGroup;
   minDate = new Date().toISOString();
-  displayedColumns: string[] = ['id', 'name', 'remuneration', 'schedule', 'startDate', 'endDate', 'actions'];
+  displayedColumns: string[] = ['seemore', 'id', 'name', 'startDate', 'endDate', 'actions'];
   companyOffersTable: JobOffer[] = [];
   tableDataSource: any;
+
 
   constructor(
     private fb: FormBuilder, private authenticationService: AuthenticationService, private router: Router, private fpService: FPService, private jobOfferService: JobOfferService, private appService: AppService, public dialog: MatDialog) {
@@ -158,6 +166,7 @@ export class HomeComponent implements OnInit {
   // Refresh offers table data
   refreshOffersTable() {
     this.jobOfferService.getAllFromCompanyId(this.authenticationService.currentCompanyValue.id).pipe(first()).subscribe(offers => {
+      alert(JSON.stringify(offers));
       this.companyOffersTable = offers;
       this.tableDataSource = new MatTableDataSource<JobOffer>(this.companyOffersTable);
       this.tableDataSource.paginator = this.paginator;

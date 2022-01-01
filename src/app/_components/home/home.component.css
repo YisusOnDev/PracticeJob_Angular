@@ -23,9 +23,11 @@
 }
 
 .custom-fab-button-container {
-    display: flex;
-    justify-content: flex-end;
-    width: 99%;
+    position: relative;
+    float: right;
+    top: -35px;
+    right: -30px;
+
 }
 
 .form {
@@ -40,4 +42,18 @@
 
 table {
     width: 100%;
+    table-layout: initial;
+}
+
+mat-header-cell, mat-cell {
+    justify-content: center;
+}
+
+tr.student-detail-row {
+    height: 0;
+}
+
+.expanded-card {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

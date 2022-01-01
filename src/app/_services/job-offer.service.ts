@@ -1,9 +1,8 @@
+import { JobOffer } from 'src/app/_models/joboffer';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { FP } from '../_models/FP';
-import { JobOffer } from '../_models/JobOffer';
 
 @Injectable({ providedIn: 'root' })
 export class JobOfferService {
@@ -44,7 +43,7 @@ export class JobOfferService {
         return this.http.post<any>(`${environment.apiUrl}/JobOffer/Create`, offerJson, { headers })
             .pipe(map(result => {
                 // Map result to a joboffer object
-                var job = new JobOffer(result.name, result.description, result.remuneration, result.startDate, result.endDate, result.fps, result.schedule, result.id);
+                var job = new JobOffer(result.name, result.description, result.remuneration, result.startDate, result.endDate, result.fps, result.jobApplications, result.schedule, result.id);
                 return job;
             }));
     }

@@ -1,7 +1,7 @@
+import { FP } from 'src/app/_models/FP';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { FP } from '../_models/FP';
 
 @Injectable({ providedIn: 'root' })
 export class FPService {
