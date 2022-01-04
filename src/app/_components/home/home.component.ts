@@ -1,5 +1,3 @@
-import { JobApplication } from './../../_models/JobOffer';
-import { FP } from 'src/app/_models/FP';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,11 +6,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { FP } from 'src/app/_models/fp';
+import { JobOffer } from 'src/app/_models/joboffer';
 import { AppService } from 'src/app/_services/app.service';
 import { AuthenticationService } from 'src/app/_services/auth.service';
 import { FPService } from 'src/app/_services/fp.service';
+import { JobApplicationService } from 'src/app/_services/job-application.service';
 import { JobOfferService } from 'src/app/_services/job-offer.service';
-import { JobOffer } from 'src/app/_models/JobOffer';
+import { JobApplication } from './../../_models/joboffer';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,7 @@ import { JobOffer } from 'src/app/_models/JobOffer';
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('250ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
+
   ]
 })
 
@@ -40,9 +42,17 @@ export class HomeComponent implements OnInit {
   companyOffersTable: JobOffer[] = [];
   tableDataSource: any;
 
+  jobApplicationsModes = [
+    { value: '0', viewValue: 'Pendiente' },
+    { value: '1', viewValue: 'Aceptado' },
+    { value: '2', viewValue: 'Denegado' },
+  ];
+
+  selectedJobApplication = 0;
+
 
   constructor(
-    private fb: FormBuilder, private authenticationService: AuthenticationService, private router: Router, private fpService: FPService, private jobOfferService: JobOfferService, private appService: AppService, public dialog: MatDialog) {
+    private fb: FormBuilder, private authenticationService: AuthenticationService, private router: Router, private fpService: FPService, private jobOfferService: JobOfferService, private appService: AppService, private jobApplicationService: JobApplicationService, public dialog: MatDialog) {
     if (this.authenticationService.currentCompanyValue.name == null) {
       this.router.navigate(['/completeprofile']);
     }
@@ -118,6 +128,7 @@ export class HomeComponent implements OnInit {
 
   // Open Edit Offer Dialog Form
   editSelectedOffer(offer: JobOffer) {
+    alert(JSON.stringify(offer.jobApplications));
     var pickedFps: FP[] = []
 
     var currentJobApplications = offer.jobApplications;
@@ -129,7 +140,6 @@ export class HomeComponent implements OnInit {
         }
       })
     });
-    console.log(pickedFps)
 
     this.editOfferForm = this.fb.group({
       id: [offer.id],
@@ -178,4 +188,41 @@ export class HomeComponent implements OnInit {
       this.tableDataSource.paginator = this.paginator;
     });
   }
+
+  // Convert user date to Age (int)
+  getAgeFromDate(birthdate: Date) {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age;
+  }
+
+  /**
+   * Method that handle when user change a jobApplication change and try to save it
+   * @param selectedAppStatus selected new application status
+   * @param jobApplicationId selected application id
+   * @param jobOffer the job offer referenced in student application
+   */
+  onJobApplicationModeChange(selectedAppStatus: number, jobApplicationId: number, jobOffer: JobOffer) {
+    console.log(selectedAppStatus + " " + jobApplicationId);
+    this.jobApplicationService.updateStatus(jobApplicationId, selectedAppStatus).pipe(first()).subscribe(done => {
+      if (done == true) {
+        jobOffer.jobApplications!.forEach(element => {
+          if (element.id == jobApplicationId) {
+            element.applicationStatus = selectedAppStatus;
+          }
+        });
+        alert("Estado de la inscripción modificado con éxito.");
+      } else {
+        alert("No se ha podido modificar el estado de la inscripción.");
+      }
+    });
+  }
+
 }

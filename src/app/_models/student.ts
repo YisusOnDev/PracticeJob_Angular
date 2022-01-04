@@ -1,4 +1,4 @@
-import { FP } from "./FP";
+import { FP } from "./fp";
 import { Province } from "./province";
 
 export class Student {

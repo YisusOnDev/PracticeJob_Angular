@@ -1,6 +1,5 @@
 <div class="grid-container">
   <h1 class="mat-h1">Panel de control</h1>
-
   <mat-card class=".dashboard-card">
     <button class="custom-fab-button-container" mat-fab matTooltip="Crear nueva oferta" (click)="addButtonPressed()">
       <mat-icon>add</mat-icon>
@@ -11,11 +10,11 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <table mat-table [dataSource]="tableDataSource" multiTemplateDataRows>
+      <table mat-table [dataSource]="tableDataSource" multiTemplateDataRows matSort>
         <ng-container matColumnDef="seemore">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary" (click)="element.isExpanded = !element.isExpanded">
+            <button mat-icon-button color="primary" (click)="element.isExpanded = !element.isExpanded;">
               <mat-icon *ngIf="!element.isExpanded">expand_more</mat-icon>
               <mat-icon *ngIf="element.isExpanded">expand_less</mat-icon>
             </button>
@@ -67,14 +66,30 @@
                       </p>
                     </mat-tab>
                     <mat-tab label="Inscripciones">
-                      <div class="cdk-virtual-scroll-data-source-example">
-                        <cdk-virtual-scroll-viewport orientation="horizontal" itemSize="50" class="example-viewport">
-                          <div>Test</div>
-                          <div>Test</div>
-                          <div>Test</div>
-                          <div>Test</div>
-                          <div>Test</div>
-                        </cdk-virtual-scroll-viewport>
+                      <div id="scroll-container">
+                        <div id="flex-scroll">
+                          <mat-card *ngFor="let u of element.jobApplications" class="card card-color">
+                            <div class="card__title">
+                              <img class="card__icon" src="https://i.imgur.com/lqxLNrX.png">
+                              <student-fullname class="card__name">{{u.student.name}} {{u.student.lastName}}
+                              </student-fullname>
+                            </div>
+                            <p class="card__details">Edad: {{getAgeFromDate(u.student.birthDate)}} años</p>
+                            <p class="card__details">Localización: {{u.student.city}}, {{u.student.province.name}}</p>
+                            <p class="card__details">FP: {{u.student.fp.name}}</p>
+                            <p class="card__details">Nota media: {{u.student.fpCalification}}</p>
+                            <mat-form-field appearance="standard">
+                              <mat-label>Modificar inscripción</mat-label>
+                              <mat-select (selectionChange)="onJobApplicationModeChange($event.value, u.id, element)"
+                                [(value)]="jobApplicationsModes[u.applicationStatus].value"
+                                style="color: white; text-emphasis-color: white;">
+                                <mat-option *ngFor="let v of jobApplicationsModes" [value]="v.value">
+                                  {{v.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </mat-card>
+                        </div>
                       </div>
                     </mat-tab>
                   </mat-tab-group>

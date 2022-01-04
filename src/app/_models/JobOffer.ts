@@ -1,5 +1,5 @@
 import { Company } from "./company";
-import { FP } from "./FP";
+import { FP } from "./fp";
 import { Student } from "./student";
 
 export enum ApplicationStatus {

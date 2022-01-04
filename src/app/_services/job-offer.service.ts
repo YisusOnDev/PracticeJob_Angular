@@ -1,4 +1,4 @@
-import { JobOffer } from 'src/app/_models/JobOffer';
+import { JobOffer } from 'src/app/_models/joboffer';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
@@ -12,8 +12,8 @@ export class JobOfferService {
      * API [AUTHORIZED] Get Request method that gets an offer by his id from DB
      * @returns offer (Object)
      */
-    get(id: number) {
-        return this.http.get<JobOffer>(`${environment.apiUrl}/JobOffer?offerId=` + id);
+     get(id: number) {
+        return this.http.get<JobOffer>(`${environment.apiUrl}/JobOffer?offerId=`+id);
     }
 
     /**
@@ -59,13 +59,13 @@ export class JobOfferService {
         return this.http.put<any>(`${environment.apiUrl}/JobOffer`, offerJson, { headers })
             .pipe(map(result => {
                 // Map result to a joboffer object
-                var job = new JobOffer(result.name, result.description, result.remuneration, result.startDate, result.endDate, result.fps, result.schedule, result.id);
+                var job = new JobOffer(result.name, result.description, result.remuneration, result.startDate, result.endDate, result.fps, result.jobApplications, result.schedule, result.id);
                 return job;
             }));
     }
 
     /**
-     * API Put [Authorized] Request method that delete an offer by his id
+     * API Delete [Authorized] Request method that delete an offer by his id
      * @param jobOffer
      * @returns offerId offer id (number)
      */
