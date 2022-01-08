@@ -45,11 +45,8 @@ export class HomeComponent implements OnInit {
   jobApplicationsModes = [
     { value: '0', viewValue: 'Pendiente' },
     { value: '1', viewValue: 'Aceptado' },
-    { value: '2', viewValue: 'Denegado' },
+    { value: '2', viewValue: 'Denegado' }
   ];
-
-  selectedJobApplication = 0;
-
 
   constructor(
     private fb: FormBuilder, private authenticationService: AuthenticationService, private router: Router, private fpService: FPService, private jobOfferService: JobOfferService, private appService: AppService, private jobApplicationService: JobApplicationService, public dialog: MatDialog) {
@@ -210,7 +207,6 @@ export class HomeComponent implements OnInit {
    * @param jobOffer the job offer referenced in student application
    */
   onJobApplicationModeChange(selectedAppStatus: number, jobApplicationId: number, jobOffer: JobOffer) {
-    console.log(selectedAppStatus + " " + jobApplicationId);
     this.jobApplicationService.updateStatus(jobApplicationId, selectedAppStatus).pipe(first()).subscribe(done => {
       if (done == true) {
         jobOffer.jobApplications!.forEach(element => {
