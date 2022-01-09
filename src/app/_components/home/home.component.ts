@@ -43,9 +43,9 @@ export class HomeComponent implements OnInit {
   tableDataSource: any;
 
   jobApplicationsModes = [
-    { value: '0', viewValue: 'Pendiente' },
-    { value: '1', viewValue: 'Aceptado' },
-    { value: '2', viewValue: 'Denegado' }
+    { value: 0, viewValue: 'Pendiente' },
+    { value: 1, viewValue: 'Aceptado' },
+    { value: 2, viewValue: 'Denegado' }
   ];
 
   constructor(
