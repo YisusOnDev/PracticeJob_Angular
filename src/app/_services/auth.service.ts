@@ -7,18 +7,30 @@ import { Company } from '../_models/company';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+    private tokenSubject: BehaviorSubject<String>;
+    public currentToken: Observable<String>;
     private currentCompanySubject: BehaviorSubject<Company>;
     public currentCompany: Observable<Company>;
 
     constructor(private http: HttpClient) {
-        this.currentCompanySubject = new BehaviorSubject<Company>(JSON.parse(sessionStorage.getItem('currentCompany')!));
+        this.tokenSubject = new BehaviorSubject<String>(JSON.parse(sessionStorage.getItem('token')!));
+        this.currentToken = this.tokenSubject.asObservable();
+
+        this.currentCompanySubject = new BehaviorSubject<Company>(JSON.parse(sessionStorage.getItem('company')!));
         this.currentCompany = this.currentCompanySubject.asObservable();
     }
     /**
-     * Get current sessionStorage data from User
+     * Get current sessionStorage company data
      */
     public get currentCompanyValue(): Company {
         return this.currentCompanySubject.value;
+    }
+
+    /**
+     * Get current sessionStorage token data
+     */
+    public get currentTokenValue(): String {
+        return this.tokenSubject.value;
     }
 
     /**
@@ -74,7 +86,7 @@ export class AuthenticationService {
         return this.http.put<any>(`${environment.apiUrl}/Company`, jsonToSend, { headers })
             .pipe(map(result => {
                 // Map result to a company object with token
-                var company = new Company(result.id, result.email, result.name, result.address, result.provinceId, result.province, this.currentCompanyValue.token);
+                var company = new Company(result.id, result.email, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
 
                 // Store new company details and jwt token in local storage to keep user logged in between page refreshes
                 sessionStorage.setItem('currentCompany', JSON.stringify(company));

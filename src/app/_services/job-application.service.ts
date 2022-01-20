@@ -15,7 +15,7 @@ export class JobApplicationService {
      */
     updateStatus(applicationId: number, newStatus: number) {
         const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-        return this.http.put<any>(`${environment.apiUrl}/JobApplication/UpdateStudentApplication?applicationId=`+applicationId+"&newStatus="+newStatus, { headers })
+        return this.http.put<any>(`${environment.apiUrl}/JobApplication?applicationId=`+applicationId+"&newStatus="+newStatus, { headers })
             .pipe(map(result => {
                 return result;
             }));
