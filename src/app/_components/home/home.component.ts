@@ -50,8 +50,9 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder, private authenticationService: AuthenticationService, private router: Router, private fpService: FPService, private jobOfferService: JobOfferService, private appService: AppService, private jobApplicationService: JobApplicationService, public dialog: MatDialog) {
-    if (this.authenticationService.currentCompanyValue.name == null) {
-      this.router.navigate(['/completeprofile']);
+    const toGo = this.authenticationService.getFirstRoute()
+    if (toGo != null && toGo != 'home') {
+      this.router.navigate([toGo]);
     }
   }
 
@@ -125,7 +126,6 @@ export class HomeComponent implements OnInit {
 
   // Open Edit Offer Dialog Form
   editSelectedOffer(offer: JobOffer) {
-    alert(JSON.stringify(offer.jobApplications));
     var pickedFps: FP[] = []
 
     var currentJobApplications = offer.jobApplications;

@@ -12,17 +12,17 @@ import { AuthenticationService } from 'src/app/_services/auth.service';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   signupForm!: FormGroup;
-  hidePassword = true;
+  resetPasswordForm!: FormGroup;
+  currentResetEmail = '';
   currentPage = 'login';
+  hidePassword = true;
+  codeRequested = false;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService) {
-    if (this.authenticationService.currentCompanyValue != null) {
-      this.router.navigate(['/']);
-    }
   }
 
   ngOnInit() {
@@ -36,21 +36,42 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
       passwordConfirmation: ['', Validators.required],
     });
+
+    this.resetPasswordForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      code: ['', Validators.required],
+    });
+
+    this.codeRequested = false;
   }
 
   getPageTitle() {
-    return (this.currentPage == "login") ? 'Inicio de sesión' : (this.currentPage == "register") ? 'Nueva cuenta' : 'Inicio de sesión'
-  }
-
-  toggleCurrentPage() {
-    if (this.currentPage == 'login') {
-      this.currentPage = 'register'
-    } else {
-      this.currentPage = 'login'
+    switch (this.currentPage) {
+      case "login":
+        return "Inicio de sesión";
+      case "register":
+        return "Nueva cuenta";
+      case "resetpassword":
+        return "Reestablecimiento de contraseña";
+      default:
+        return "PracticeJob";
     }
   }
 
-  get f() { return (this.currentPage == "login") ? this.loginForm.controls : (this.currentPage == "register") ? this.signupForm.controls : this.loginForm.controls }
+  toggleCurrentPage(nextPage: string) {
+    if (this.currentPage == 'resetpassword' && nextPage == 'login') {
+      this.resetPasswordForm.reset();
+      this.codeRequested = false;
+    }
+    this.currentPage = nextPage;
+  }
+
+  resetPasswordPressed() {
+    this.router.navigate(['resetpassword']);
+  }
+
+  get f() { return (this.currentPage == "login") ? this.loginForm.controls : (this.currentPage == "register") ? this.signupForm.controls : this.resetPasswordForm.controls }
 
   onLoginPressed() {
 
@@ -59,17 +80,12 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    // Try login
     this.authenticationService.login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe({
         next: () => {
-          // Check if user/company profile is completed in order to prompt completeProfile page 
-          if (this.authenticationService.currentCompanyValue.name == null) {
-            this.router.navigate(['completeprofile']);
-          } else {
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
-            this.router.navigate([returnUrl]);
-          }
+          this.router.navigate(['home']);
         },
         error: () => {
           alert("Invalid credentials");
@@ -83,20 +99,59 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.f.password.value === this.f.passwordConfirmation.value) {
-
+      // Try create account
       this.authenticationService.create(this.f.email.value, this.f.password.value)
         .pipe(first())
         .subscribe({
           next: () => {
-            this.router.navigate(['completeprofile']);
-          },
-          error: error => {
-            alert(error);
+            this.router.navigate(['home']);
           }
         });
     } else {
       alert("Passwords does not match");
       return;
     }
+  }
+
+  requestResetPasswordCode() {
+    const email = this.f.email.value;
+    this.authenticationService.sendResetPasswordCode(email).pipe(first())
+      .subscribe({
+        next: (result) => {
+          if (result == true) {
+            alert("Código envíado");
+            this.codeRequested = !this.codeRequested;
+          } else {
+            alert("Este correo electrónico no esta asociado a ninguna cuenta registrada.");
+          }
+        },
+        error: () => {
+          alert("Ha ocurrido un error, intentelo de nuevo más tarde");
+        }
+      });
+
+  }
+
+  onResetPassword() {
+    if (this.resetPasswordForm.invalid) {
+      return;
+    }
+
+    // Try restore paswword
+    this.authenticationService.updatePassword(this.f.email.value, this.f.password.value, this.f.code.value).pipe(first())
+      .subscribe({
+        next: (result) => {
+          if (result == true) {
+            this.toggleCurrentPage('login');
+            alert("Contraseña restaurada con éxito");
+          } else {
+            alert("Código inválido");
+          }
+          this.codeRequested = !this.codeRequested;
+        },
+        error: () => {
+          alert("Ha ocurrido un error, intentelo de nuevo más tarde");
+        }
+      });
   }
 }

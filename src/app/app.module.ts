@@ -18,6 +18,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { getSpanishPaginatorIntl } from './_helpers/mat-paginator-es';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ConfirmAccountComponent } from './_components/confirm-account/confirm-account.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     CompleteProfileComponent,
     HomeComponent,
     NavigationComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfirmAccountComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,8 +3,7 @@
     <mat-card-header>
       <mat-card-title>{{getPageTitle()}}</mat-card-title>
     </mat-card-header>
-    <form *ngIf="currentPage == 'login'" novalidate (ngSubmit)="onLoginPressed()"
-      [formGroup]="loginForm">
+    <form *ngIf="currentPage == 'login'" novalidate [formGroup]="loginForm">
       <mat-card-content>
         <mat-form-field class="login-full-width">
           <mat-label>Introduce tu correo electrónico</mat-label>
@@ -30,9 +29,16 @@
             La contraseña es obligatoria</mat-error>
         </mat-form-field>
       </mat-card-content>
-      <button mat-stroked-button color="accent" class="btn-block" [disabled]="loginForm.invalid">Iniciar sesión</button>
+
+      <button mat-stroked-button color="accent" class="btn-block" (click)="onLoginPressed()"
+        [disabled]="loginForm.invalid">Iniciar sesión</button>
       <hr>
-      <button mat-stroked-button color="accent" class="btn-block" (click)="toggleCurrentPage()">Crear cuenta</button>
+      <button mat-stroked-button color="accent" class="btn-block" (click)="toggleCurrentPage('register')">Crear
+        cuenta</button>
+      <hr>
+      <button mat-stroked-button color="accent" class="btn-block" (click)="toggleCurrentPage('resetpassword')">¿Has
+        olvidado tu
+        contraseña?</button>
     </form>
 
     <form *ngIf="currentPage == 'register'" class="login-form" novalidate (ngSubmit)="onRegisterPressed()"
@@ -77,7 +83,68 @@
       </mat-card-content>
       <button mat-stroked-button color="accent" class="btn-block" [disabled]="signupForm.invalid">Crear cuenta</button>
       <hr>
-      <button mat-stroked-button color="accent" class="btn-block" (click)="toggleCurrentPage()">¿Ya tienes cuenta?, Inicia sesión</button>
+      <button mat-stroked-button color="accent" class="btn-block" (click)="toggleCurrentPage('login')">¿Ya tienes
+        cuenta?,
+        Inicia sesión</button>
+    </form>
+
+    <form *ngIf="currentPage == 'resetpassword'" class="login-form" novalidate [formGroup]="resetPasswordForm">
+      <div *ngIf="!codeRequested">
+        <mat-card-content>
+          <mat-form-field class="login-full-width">
+            <mat-label>Introduce tu correo electrónico</mat-label>
+            <input matInput placeholder="practicestudent@practicejob.com" formControlName="email" required>
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error
+              *ngIf="resetPasswordForm.get('email')?.hasError('required') && resetPasswordForm.get('email')?.touched">El
+              correo
+              es obligatorio
+            </mat-error>
+            <mat-error
+              *ngIf="resetPasswordForm.get('email')?.hasError('email') && resetPasswordForm.get('email')?.touched">El
+              correo
+              debe ser válido
+            </mat-error>
+          </mat-form-field>
+
+          <button mat-stroked-button color="accent" class="btn-block" (click)="requestResetPasswordCode()"
+            [disabled]="this.resetPasswordForm.get('email')?.invalid">Solicitar código</button>
+          <hr>
+          <button mat-stroked-button color="accent" class="btn-block" (click)="toggleCurrentPage('login')">Volver a
+            inicio</button>
+        </mat-card-content>
+      </div>
+
+      <div *ngIf="codeRequested">
+        <mat-card-content>
+          <mat-form-field class="login-full-width">
+            <mat-label>Introduce tu nueva contraseña</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-error
+              *ngIf="resetPasswordForm.get('password')?.hasError('required') && resetPasswordForm.get('password')?.touched">
+              contraseña es obligatoria</mat-error>
+          </mat-form-field>
+          <mat-form-field class="login-full-width">
+            <mat-label>Código de verificación</mat-label>
+            <input matInput formControlName="code">
+            <mat-icon matSuffix>keyboard</mat-icon>
+            <mat-error
+              *ngIf="resetPasswordForm.get('code')?.hasError('required') && resetPasswordForm.get('code')?.touched">
+              El código es obligatorio</mat-error>
+          </mat-form-field>
+          <button mat-stroked-button color="accent" class="btn-block" [disabled]="resetPasswordForm.invalid"
+            (click)="onResetPassword()">Reestablecer contraseña</button>
+          <hr>
+          <button mat-stroked-button color="accent" class="btn-block" (click)="toggleCurrentPage('login')">Volver a
+            Inicio</button>
+        </mat-card-content>
+      </div>
     </form>
   </mat-card>
 </div>

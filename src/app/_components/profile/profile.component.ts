@@ -70,9 +70,6 @@ export class ProfileComponent implements OnInit {
         next: () => {
           alert("Has cambiado tus ajustes");
           this.router.navigate(['profile']);
-        },
-        error: error => {
-          alert(error);
         }
       });
   }

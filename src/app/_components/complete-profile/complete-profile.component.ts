@@ -62,9 +62,6 @@ export class CompleteProfileComponent implements OnInit {
       .subscribe({
         next: () => {
           this.router.navigate(['home']);
-        },
-        error: error => {
-          alert(error);
         }
       });
   }

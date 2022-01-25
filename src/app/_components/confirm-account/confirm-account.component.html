@@ -1,0 +1,19 @@
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Verificar cuenta</mat-card-title>
+    </mat-card-header>
+
+    <form novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+      <mat-card-content>
+        <mat-form-field class="login-full-width">
+          <mat-label>Código de confirmación</mat-label>
+          <input matInput placeholder="" formControlName="code" required>
+          <mat-icon matSuffix>keyboard</mat-icon>
+        </mat-form-field>
+      </mat-card-content>
+      <button mat-stroked-button color="accent" class="btn-block" [disabled]="form.invalid">Confirmar cuenta</button>
+    </form>
+  </mat-card>
+</div>
