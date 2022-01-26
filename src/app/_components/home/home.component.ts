@@ -1,3 +1,4 @@
+import { Student } from './../../_models/student';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -32,15 +33,18 @@ import { JobApplication } from './../../_models/joboffer';
 export class HomeComponent implements OnInit {
   @ViewChild('newOfferDialogForm') newOfferDialogForm!: TemplateRef<any>;
   @ViewChild('editOfferDialogForm') editOfferDialogForm!: TemplateRef<any>;
+  @ViewChild('contactStudentDialogForm') contactStudentDialogForm!: TemplateRef<any>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   fpList!: FP[];
   newOfferForm!: FormGroup;
   editOfferForm!: FormGroup;
+  contactStudentForm!: FormGroup;
   minDate = new Date().toISOString();
   displayedColumns: string[] = ['seemore', 'id', 'name', 'startDate', 'endDate', 'actions'];
   companyOffersTable: JobOffer[] = [];
   tableDataSource: any;
+  contactStudentMail!: string;
 
   jobApplicationsModes = [
     { value: 0, viewValue: 'Pendiente' },
@@ -71,6 +75,10 @@ export class HomeComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       fps: ['', Validators.required],
+    });
+
+    this.contactStudentForm = this.fb.group({
+      message: ['Mensaje para el el alumno', [Validators.required]]
     });
 
     setTimeout(() => {
@@ -219,6 +227,37 @@ export class HomeComponent implements OnInit {
         alert("No se ha podido modificar el estado de la inscripción.");
       }
     });
+  }
+
+  contactStudentPrompt(student: Student) {
+    if (student != null) {
+      this.contactStudentMail = student.email;
+      this.dialog.open(this.contactStudentDialogForm);
+    } else {
+      alert("Error: El usuario seleccionado no tiene correo electrónico asociado");
+    }
+  }
+
+  onContactStudent() {
+    // stop here if form is invalid
+    if (this.contactStudentForm.invalid) {
+      return;
+    }
+
+    const f = this.contactStudentForm.controls;
+    var message = f.message.value;
+    var companyName = this.authenticationService.currentCompanyValue.name;
+    this.jobApplicationService.contactStudent(this.contactStudentMail, companyName, message)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          alert("¡Email envíado al estudiante con éxito!");
+        },
+        error: (error) => {
+          alert("Ha ocurrido un error, por favor, intentelo más tarde");
+        }
+      });
+    this.dialog.closeAll();
   }
 
 }

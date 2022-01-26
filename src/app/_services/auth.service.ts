@@ -179,8 +179,6 @@ export class AuthenticationService {
             }));
     }
 
-
-
     /**
      * Method to know where user should go (Confirm Acc, Complete profile and so...)
      * @returns route to redirection user
@@ -195,7 +193,6 @@ export class AuthenticationService {
             return 'home';
         }
         return '/';
-
     }
 
     /**

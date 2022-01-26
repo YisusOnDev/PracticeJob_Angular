@@ -68,27 +68,35 @@
                     <mat-tab label="Inscripciones">
                       <div id="scroll-container">
                         <div id="flex-scroll">
-                          <mat-card *ngFor="let u of element.jobApplications" class="card card-color">
-                            <div class="card__title">
-                              <img class="card__icon" src="https://i.imgur.com/lqxLNrX.png">
-                              <student-fullname class="card__name">{{u.student.name}} {{u.student.lastName}}
-                              </student-fullname>
-                            </div>
-                            <p class="card__details">Edad: {{getAgeFromDate(u.student.birthDate)}} años</p>
-                            <p class="card__details">Localización: {{u.student.city}}, {{u.student.province.name}}</p>
-                            <p class="card__details">FP: {{u.student.fp.name}}</p>
-                            <p class="card__details">Nota media: {{u.student.fpCalification}}</p>
-                            <mat-form-field appearance="standard">
-                              <mat-label>Modificar inscripción</mat-label>
-                              <mat-select (selectionChange)="onJobApplicationModeChange($event.value, u.id, element)"
-                                [(value)]="jobApplicationsModes[u.applicationStatus].value"
-                                style="color: white; text-emphasis-color: white;">
-                                <mat-option *ngFor="let v of jobApplicationsModes" [value]="v.value">
-                                  {{v.viewValue}}
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                          </mat-card>
+                          <div *ngIf="element.jobApplications.length > 0">
+                            <mat-card *ngFor="let u of element.jobApplications" class="card card-color">
+                              <div class="card__title">
+                                <img class="card__icon" src="https://i.imgur.com/lqxLNrX.png">
+                                <student-fullname class="card__name">{{u.student.name}} {{u.student.lastName}}
+                                </student-fullname>
+                              </div>
+                              <p class="card__details">Edad: {{getAgeFromDate(u.student.birthDate)}} años</p>
+                              <p class="card__details">Localización: {{u.student.city}}, {{u.student.province.name}}</p>
+                              <p class="card__details">FP: {{u.student.fp.name}}</p>
+                              <p class="card__details">Nota media: {{u.student.fpCalification}}</p>
+                              <mat-form-field appearance="standard">
+                                <mat-label>Modificar inscripción</mat-label>
+                                <mat-select (selectionChange)="onJobApplicationModeChange($event.value, u.id, element)"
+                                  [(value)]="jobApplicationsModes[u.applicationStatus].value"
+                                  style="color: white; text-emphasis-color: white;">
+                                  <mat-option *ngFor="let v of jobApplicationsModes" [value]="v.value">
+                                    {{v.viewValue}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                              <br><br>
+                              <button mat-fab color="white" aria-label="Contactar con el estudiante"
+                                (click)="contactStudentPrompt(u.student)">
+                                <mat-icon>email</mat-icon>
+                              </button>
+                            </mat-card>
+                          </div>
+                          <div *ngIf="element.jobApplications.length == 0">No hay inscripciones para esta oferta.</div>
                         </div>
                       </div>
                     </mat-tab>
@@ -253,5 +261,26 @@
     <hr>
     <button mat-button matDialogClose="no">Cancelar</button>
     <button (click)="editOfferSubmit()" mat-button>Publicar</button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #contactStudentDialogForm>
+  <h2 mat-dialog-title>Contactar con el estudiante</h2>
+  <mat-divider></mat-divider>
+  <br>
+  <mat-dialog-content class="mat-typography">
+    <form class="form" [formGroup]="contactStudentForm">
+      <mat-form-field appearance="fill" class="form-full-width">
+        <mat-label>Mensaje</mat-label>
+        <textarea matInput formControlName="message"></textarea>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <mat-error *ngIf="editOfferForm.invalid">Por favor, completa el formulario.
+    </mat-error>
+    <hr>
+    <button mat-button matDialogClose="no">Cancelar</button>
+    <button (click)="onContactStudent()" mat-button>Enviar</button>
   </mat-dialog-actions>
 </ng-template>
