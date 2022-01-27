@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
     });
 
     this.contactStudentForm = this.fb.group({
-      message: ['Mensaje para el el alumno', [Validators.required]]
+      message: ['', [Validators.required]]
     });
 
     setTimeout(() => {

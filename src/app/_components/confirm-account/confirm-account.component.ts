@@ -12,6 +12,7 @@ import { AuthenticationService } from 'src/app/_services/auth.service';
 
 export class ConfirmAccountComponent implements OnInit {
   form!: FormGroup;
+  emailSent: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -23,8 +24,9 @@ export class ConfirmAccountComponent implements OnInit {
     this.form = this.fb.group({
       code: ['', Validators.required],
     });
-    alert("Hemos envíado un código de confirmación a tu correo electrónico");
-    this.sendEmailRequest();
+    if (this.authenticationService.currentCompanyValue.name == null) {
+      this.sendEmailRequest();
+    }
   }
 
   // Send email to user in order to get confirmation code
@@ -32,10 +34,16 @@ export class ConfirmAccountComponent implements OnInit {
     this.authenticationService.sendEmailConfirm()
       .pipe(first())
       .subscribe({
+        next: () => {
+          alert("Hemos envíado un código de confirmación a tu correo electrónico");
+          this.emailSent = false;
+        },
         error: () => {
           alert("Ha ocurrido un error al enviar el email de confirmación, por favor intentelo más tarde")
         }
       });
+
+
   }
 
   get f() { return this.form.controls }
