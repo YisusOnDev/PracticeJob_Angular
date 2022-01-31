@@ -48,7 +48,7 @@ export class AuthenticationService {
                     const body = response.body;
 
                     // Map result to a company object
-                    var company = new Company(body.id, body.email, body.name, body.address, body.provinceId, body.province, body.validatedEmail);
+                    var company = new Company(body.id, body.email, body.profileImage, body.name, body.address, body.provinceId, body.province, body.validatedEmail);
 
                     // Store company details and jwt token in local storage to keep user logged in between page refreshes
                     sessionStorage.setItem('company', JSON.stringify(company));
@@ -81,7 +81,7 @@ export class AuthenticationService {
             .pipe(map((result: any) => {
                 const body = result.body;
                 // Map result to a company object
-                var company = new Company(body.id, body.email, body.name, body.address, body.provinceId, body.province, body.validatedEmail);
+                var company = new Company(body.id, body.email, body.profileImage, body.name, body.address, body.provinceId, body.province, body.validatedEmail);
 
                 // Store new company details in local storage to keep user logged in between page refreshes
                 sessionStorage.setItem('company', JSON.stringify(company));
@@ -111,7 +111,7 @@ export class AuthenticationService {
         return this.http.put<any>(`${environment.apiUrl}/Company`, jsonToSend, { headers })
             .pipe(map(result => {
                 // Map result to a company object with token
-                var company = new Company(result.id, result.email, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
+                var company = new Company(result.id, result.email, result.profileImage, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
 
                 // Store new company details in local storage to keep user logged in between page refreshes
                 sessionStorage.setItem('company', JSON.stringify(company));
@@ -143,7 +143,7 @@ export class AuthenticationService {
         return this.http.post<any>(`${environment.apiUrl}/Company/ValidateEmail?code=${code}`, this.currentCompanyValue, { headers })
             .pipe(map(result => {
                 // Map result to a company object with token
-                var company = new Company(result.id, result.email, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
+                var company = new Company(result.id, result.email, result.profileImage, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
 
                 // Store new company details in local storage to keep user logged in between page refreshes
                 sessionStorage.setItem('company', JSON.stringify(company));
@@ -176,6 +176,25 @@ export class AuthenticationService {
         return this.http.post<any>(`${environment.apiUrl}/Company/UpdatePassword`, body, { headers })
             .pipe(map(result => {
                 return result;
+            }));
+    }
+
+    /**
+     * API POST Request method that updates a company details
+     * @param company Company Object
+     * @returns Company Updated Object
+     */
+    uploadProfileImage(image: FormData) {
+        return this.http.post<any>(`${environment.apiUrl}/Company/UploadImage?companyId=${this.currentCompanyValue.id}`, image, {reportProgress: true, observe: 'response'})
+            .pipe(map(apiResult => {
+                const result = apiResult.body;
+                // Map result to a company object with token
+                var company = new Company(result.id, result.email, result.profileImage, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
+
+                // Store new company details in local storage to keep user logged in between page refreshes
+                sessionStorage.setItem('company', JSON.stringify(company));
+                this.currentCompanySubject.next(company);
+                return company;
             }));
     }
 

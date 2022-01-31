@@ -12,8 +12,16 @@
       </mat-card>
       <mat-card fxFlex="60%;" fxFlex.xs="80%">
         <mat-card-content>
-          <mat-card-title style="text-align:center;">Editar perfil</mat-card-title>
+          
+          <mat-card-title style="text-align:left;">Editar perfil</mat-card-title>
           <mat-card-content>
+            <label class="hoverable" for="fileInput">
+              <img [src]="currentCompany.profileImage ? currentCompany.profileImage : 'https://www.w3schools.com/howto/img_avatar.png'"> 
+              <div class="hover-text">Seleccionar imagen</div>
+              <div class="background"></div>
+            </label>
+            <br/>
+            <input id="fileInput" type='file' (change)="onSelectFile($event)">
             <form novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
               <mat-card-content>
                 <mat-form-field style="width: 100%;">

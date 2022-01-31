@@ -1,3 +1,4 @@
+import { NotificationService } from 'src/app/_services/notification.service';
 import { Company } from './../../_models/company';
 import { AppService } from 'src/app/_services/app.service';
 import { Component, OnInit } from '@angular/core';
@@ -25,7 +26,8 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private provinceService: ProvinceService,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private notificationService: NotificationService) {
     this.authenticationService.currentCompany.subscribe(x => this.currentCompany = x);
     if (this.authenticationService.currentCompanyValue == null || this.authenticationService.currentCompanyValue.name == undefined || this.authenticationService.currentCompanyValue.name == null) {
       this.router.navigate(['completeprofile']);
@@ -40,7 +42,7 @@ export class ProfileComponent implements OnInit {
     });
     this.provinceService.getAll().pipe(first()).subscribe(provinces => {
       this.provinces = provinces;
-      
+
       this.form.controls.province.setValue(this.provinces[getCurrentProvinceIndex(this.provinces, this.currentCompany.provinceId)])
     });
 
@@ -68,10 +70,28 @@ export class ProfileComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          alert("Has cambiado tus ajustes");
+          this.notificationService.showSuccess("Has cambiado tu perfil con éxito", "Cambios guardados");
           this.router.navigate(['profile']);
         }
       });
+  }
+
+  onSelectFile(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      let image = event.target.files[0];
+      const formData = new FormData();
+      formData.append('file', image, image.name);
+
+      this.authenticationService.uploadProfileImage(formData)
+        .pipe(first())
+        .subscribe({
+          next: (result) => {
+            this.notificationService.showSuccess('Imagen de perfil cambiada con éxito', "Perfil modificado");
+            this.currentCompany.profileImage = result.profileImage;
+            this.router.navigate(['profile']);
+          }
+        });
+    }
   }
 
 }

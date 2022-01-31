@@ -15,6 +15,7 @@ import { FPService } from 'src/app/_services/fp.service';
 import { JobApplicationService } from 'src/app/_services/job-application.service';
 import { JobOfferService } from 'src/app/_services/job-offer.service';
 import { JobApplication } from './../../_models/joboffer';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -53,7 +54,7 @@ export class HomeComponent implements OnInit {
   ];
 
   constructor(
-    private fb: FormBuilder, private authenticationService: AuthenticationService, private router: Router, private fpService: FPService, private jobOfferService: JobOfferService, private appService: AppService, private jobApplicationService: JobApplicationService, public dialog: MatDialog) {
+    private fb: FormBuilder, private notificationService: NotificationService, private authenticationService: AuthenticationService, private router: Router, private fpService: FPService, private jobOfferService: JobOfferService, private appService: AppService, private jobApplicationService: JobApplicationService, public dialog: MatDialog) {
     const toGo = this.authenticationService.getFirstRoute()
     if (toGo != null && toGo != 'home') {
       this.router.navigate([toGo]);
@@ -109,10 +110,10 @@ export class HomeComponent implements OnInit {
       .subscribe({
         next: () => {
           this.refreshOffersTable();
-          alert("¡Oferta publicada con éxito!");
+          this.notificationService.showSuccess("¡Oferta publicada con éxito!", "Oferta publicada");
         },
         error: () => {
-          alert("Ha ocurrido un error, por favor, intentelo más tarde");
+          this.notificationService.showGenericError();
         }
       });
     this.dialog.closeAll();
@@ -123,9 +124,9 @@ export class HomeComponent implements OnInit {
     if (confirm("¿Estás seguro de que quieres eliminar esta oferta? (" + id + ")")) {
       this.jobOfferService.deleteById(id).pipe(first()).subscribe(result => {
         if (result == true) {
-          alert("Has borrado la oferta");
+          this.notificationService.showSuccess("Has aliminado la oferta correctamente", "Oferta eliminada");
         } else {
-          alert("Ha ocurrido un error, vuelve a intentarlo mas tarde");
+          this.notificationService.showGenericError();
         }
         this.refreshOffersTable();
       });
@@ -176,10 +177,10 @@ export class HomeComponent implements OnInit {
       .subscribe({
         next: () => {
           this.refreshOffersTable();
-          alert("¡Oferta modificada con éxito!");
+          this.notificationService.showSuccess("¡Oferta modificada con éxito!", "Oferta modificada");
         },
         error: (error) => {
-          alert("Ha ocurrido un error, por favor, intentelo más tarde");
+          this.notificationService.showGenericError();
         }
       });
     this.dialog.closeAll();
@@ -222,9 +223,10 @@ export class HomeComponent implements OnInit {
             element.applicationStatus = selectedAppStatus;
           }
         });
-        alert("Estado de la inscripción modificado con éxito.");
+        let statusString: string = this.jobApplicationsModes[selectedAppStatus].viewValue
+        this.notificationService.showSuccess("Has modificado la inscripción su nuevo estado es: " + statusString, "Estado de inscripción");
       } else {
-        alert("No se ha podido modificar el estado de la inscripción.");
+        this.notificationService.showError("No se ha podido modificar el estado de la inscripción", "Error al modificar inscripción");
       }
     });
   }
@@ -234,7 +236,7 @@ export class HomeComponent implements OnInit {
       this.contactStudentMail = student.email;
       this.dialog.open(this.contactStudentDialogForm);
     } else {
-      alert("Error: El usuario seleccionado no tiene correo electrónico asociado");
+      this.notificationService.showError("El usuario no tiene ningún correo electrónico asociado", "Error");
     }
   }
 
@@ -251,10 +253,10 @@ export class HomeComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          alert("¡Email envíado al estudiante con éxito!");
+          this.notificationService.showInfo("¡Email de contacto envíado con éxito", "Email envíado");
         },
         error: (error) => {
-          alert("Ha ocurrido un error, por favor, intentelo más tarde");
+          this.notificationService.showGenericError();
         }
       });
     this.dialog.closeAll();

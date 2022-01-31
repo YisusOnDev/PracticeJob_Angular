@@ -1,3 +1,4 @@
+import { NotificationService } from './../../_services/notification.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,7 +18,8 @@ export class ConfirmAccountComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -35,11 +37,11 @@ export class ConfirmAccountComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          alert("Hemos envíado un código de confirmación a tu correo electrónico");
+          this.notificationService.showInfo("Hemos envíado un código de confirmación a tu correo electrónico", "Verificación de Email");
           this.emailSent = false;
         },
         error: () => {
-          alert("Ha ocurrido un error al enviar el email de confirmación, por favor intentelo más tarde")
+          this.notificationService.showError("Ha ocurrido un error al enviar el email de confirmación, por favor intentelo más tarde", "Error");
         }
       });
 
@@ -59,14 +61,14 @@ export class ConfirmAccountComponent implements OnInit {
       .subscribe({
         next: (result) => {
           if (result.validatedEmail == true) {
-            alert("Has validado tu cuenta correctamente");
+            this.notificationService.showSuccess("Has verificado tu cuenta correctamente", "Cuenta verificada");
             this.router.navigate(['home']);
           } else {
-            alert("El código introducido es incorrecto");
+            this.notificationService.showError("El código introducido es incorrecto", "Código inválido");
           }
         },
         error: () => {
-          alert("Ha ocurrido un error");
+          this.notificationService.showGenericError();
         }
       });
   }

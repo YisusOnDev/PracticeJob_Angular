@@ -1,3 +1,4 @@
+import { NotificationService } from 'src/app/_services/notification.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private notificationSerivce: NotificationService) {
   }
 
   ngOnInit() {
@@ -88,7 +90,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['home']);
         },
         error: () => {
-          alert("Invalid credentials");
+          this.notificationSerivce.showError("Datos introducidos no válidos", "Error");
         }
       });
   }
@@ -108,8 +110,7 @@ export class LoginComponent implements OnInit {
           }
         });
     } else {
-      alert("Passwords does not match");
-      return;
+      this.notificationSerivce.showError("Las contraseñas no coinciden", "Error");
     }
   }
 
@@ -119,14 +120,14 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (result) => {
           if (result == true) {
-            alert("Código envíado");
+            this.notificationSerivce.showInfo("Código de reestablecimiento de contraseña envíado", "Código envíado");
             this.codeRequested = !this.codeRequested;
           } else {
-            alert("Este correo electrónico no esta asociado a ninguna cuenta registrada.");
+            this.notificationSerivce.showError("Este correo electrónico no esta asociado a ninguna cuenta registrada", "Error");
           }
         },
         error: () => {
-          alert("Ha ocurrido un error, intentelo de nuevo más tarde");
+          this.notificationSerivce.showGenericError();
         }
       });
 
@@ -143,14 +144,14 @@ export class LoginComponent implements OnInit {
         next: (result) => {
           if (result == true) {
             this.toggleCurrentPage('login');
-            alert("Contraseña restaurada con éxito");
+            this.notificationSerivce.showSuccess("Nueva contraseña establecida con éxito", "Contraseña reestablecida");
           } else {
-            alert("Código inválido");
+            this.notificationSerivce.showError("Código inválido", "Error");
           }
           this.codeRequested = !this.codeRequested;
         },
         error: () => {
-          alert("Ha ocurrido un error, intentelo de nuevo más tarde");
+          this.notificationSerivce.showGenericError();
         }
       });
   }

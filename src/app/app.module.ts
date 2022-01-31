@@ -19,6 +19,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { getSpanishPaginatorIntl } from './_helpers/mat-paginator-es';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ConfirmAccountComponent } from './_components/confirm-account/confirm-account.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ConfirmAccountComponent } from './_components/confirm-account/confirm-a
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ScrollingModule
+    ScrollingModule,
+    ToastrModule.forRoot()
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
