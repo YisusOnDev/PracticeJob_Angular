@@ -1,0 +1,124 @@
+.grid-container {
+    margin: 20px;
+}
+
+.dashboard-card {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.more-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+.dashboard-card-content {
+    text-align: center;
+}
+
+.custom-fab-button-container {
+    position: relative;
+    float: right;
+    top: -35px;
+    right: -30px;
+
+}
+
+.form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.form-full-width {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 500px;
+}
+
+th.mat-header-cell {
+    text-align: left;
+    max-width: 300px;
+}
+
+tr.student-detail-row {
+    height: 0;
+}
+
+.expanded-card {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/** cards **/
+#scroll-container {
+    height: 450px;
+    display: flex;
+    overflow: auto;
+}
+
+#flex-scroll {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 500px;
+    min-height: 200px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    background: #3f51b5;
+    transition: all 0.2s;
+}
+
+.card:hover {
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1.01);
+}
+
+.card__exit {
+    justify-self: end;
+}
+
+.card__icon {
+    border-radius: 50%;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    width: 60px;
+    height: 60px;
+}
+
+.card__name {
+    position: absolute;
+    font-size: 24px;
+    margin-left: 12px;
+    margin-top: 20px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.card__title>img,
+.card__title>student-fullname {
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.card__details {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+}

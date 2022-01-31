@@ -1,3 +1,4 @@
+import { EditOfferData } from './../../_modals/edit-offer-modal/edit-offer.modal';
 import { Student } from './../../_models/student';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -16,6 +17,7 @@ import { JobApplicationService } from 'src/app/_services/job-application.service
 import { JobOfferService } from 'src/app/_services/job-offer.service';
 import { JobApplication } from './../../_models/joboffer';
 import { NotificationService } from 'src/app/_services/notification.service';
+import { EditOfferModal } from 'src/app/_modals/edit-offer-modal/edit-offer.modal';
 
 @Component({
   selector: 'app-home',
@@ -133,11 +135,11 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  // Open Edit Offer Dialog Form
+  // Edit Offer Dialog Form Modal
   editSelectedOffer(offer: JobOffer) {
-    var pickedFps: FP[] = []
+    let pickedFps: FP[] = []
 
-    var currentJobApplications = offer.jobApplications;
+    let currentJobApplications = offer.jobApplications;
 
     this.fpList.forEach(element => {
       offer.fPs.forEach(selected => {
@@ -158,32 +160,37 @@ export class HomeComponent implements OnInit {
       fps: [pickedFps, [Validators.required]],
       jobApplications: [currentJobApplications],
     });
-    this.dialog.open(this.editOfferDialogForm);
-  }
 
-  // On Edit Offer Dialog Form Submit
-  editOfferSubmit() {
+    let editOfferData: EditOfferData = { editOfferForm: this.editOfferForm, fpList: this.fpList }
+    const dialogRef = this.dialog.open(EditOfferModal, {
+      width: '600px',
+      data: editOfferData,
+    });
 
-    // stop here if form is invalid
-    if (this.editOfferForm.invalid) {
-      return;
-    }
-
-    const f = this.editOfferForm.controls;
-    var company = this.authenticationService.currentCompanyValue;
-    var newOffer = new JobOffer(f.name.value, company.id, company, f.description.value, f.remuneration.value, f.startDate.value, f.endDate.value, f.fps.value, f.jobApplications.value, f.schedule.value, f.id.value);
-    this.jobOfferService.update(newOffer)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.refreshOffersTable();
-          this.notificationService.showSuccess("¡Oferta modificada con éxito!", "Oferta modificada");
-        },
-        error: (error) => {
-          this.notificationService.showGenericError();
+    dialogRef.afterClosed().subscribe((res: FormGroup) => {
+      if (res != undefined) {
+        this.editOfferForm = res;
+        // stop here if form is invalid
+        if (this.editOfferForm.invalid) {
+          return;
         }
-      });
-    this.dialog.closeAll();
+
+        const f = this.editOfferForm.controls;
+        var company = this.authenticationService.currentCompanyValue;
+        var newOffer = new JobOffer(f.name.value, company.id, company, f.description.value, f.remuneration.value, f.startDate.value, f.endDate.value, f.fps.value, f.jobApplications.value, f.schedule.value, f.id.value);
+        this.jobOfferService.update(newOffer)
+          .pipe(first())
+          .subscribe({
+            next: () => {
+              this.refreshOffersTable();
+              this.notificationService.showSuccess("¡Oferta modificada con éxito!", "Oferta modificada");
+            },
+            error: (error) => {
+              this.notificationService.showGenericError();
+            }
+          });
+      }
+    });
   }
 
   // Refresh offers table data
