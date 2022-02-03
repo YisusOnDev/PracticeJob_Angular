@@ -10,7 +10,8 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <table mat-table [dataSource]="tableDataSource" multiTemplateDataRows matSort>
+      <div *ngIf="companyOffersTable.length <= 0">No tienes ninguna oferta publicada actualmente</div>
+      <table *ngIf="companyOffersTable.length > 0" mat-table [dataSource]="tableDataSource" multiTemplateDataRows matSort>
         <ng-container matColumnDef="seemore">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
@@ -112,102 +113,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="student-detail-row"></tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+      <mat-paginator *ngIf="companyOffersTable.length > 0" [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>
-
-<!-- Add New Offer Dialog Form -->
-<ng-template #newOfferDialogForm>
-  <h2 mat-dialog-title>Nueva Oferta</h2>
-  <mat-divider></mat-divider>
-  <br>
-  <mat-dialog-content class="mat-typography">
-    <form class="form" [formGroup]="newOfferForm">
-      <mat-form-field class="form-full-width" appearance="fill">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="name" placeholder="Desarrollador Backend .NET Core">
-        <mat-error *ngIf="newOfferForm.get('name')?.hasError('required') && newOfferForm.get('name')?.touched">El nombre
-          es
-          obligatorio
-        </mat-error>
-        <mat-error *ngIf="newOfferForm.get('name')?.hasError('max') && newOfferForm.get('name')?.touched">El nombre solo
-          puede contener 65 carácteres
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form-full-width" appearance="fill">
-        <mat-label>Descripción</mat-label>
-        <textarea matInput formControlName="description"
-          placeholder="Equipo nuevo, desarrollo backend en .NET Core con EF Core 3.1"></textarea>
-        <mat-error
-          *ngIf="newOfferForm.get('description')?.hasError('required') && newOfferForm.get('description')?.touched">La
-          descripción es
-          obligatoria
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form-full-width" appearance="fill">
-        <mat-label>Remuneración</mat-label>
-        <input matInput formControlName="remuneration" type="number" value="0" min="0" placeholder="1200 (Mínimo 0)">
-        <mat-error
-          *ngIf="newOfferForm.get('remuneration')?.hasError('required') && newOfferForm.get('remuneration')?.touched">La
-          remuneración es
-          obligatoria y mínimo debe de ser 0
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form-full-width" appearance="fill">
-        <mat-label>Horas</mat-label>
-        <input matInput formControlName="schedule" placeholder="8 horas">
-      </mat-form-field>
-      <mat-form-field class="form-full-width" appearance="fill">
-        <mat-label>Duración de la oferta</mat-label>
-        <mat-date-range-input [rangePicker]="picker" [min]="minDate">
-          <input matStartDate placeholder="Fecha inicio" formControlName="startDate">
-          <input matEndDate placeholder="Fecha fin" formControlName="endDate">
-        </mat-date-range-input>
-        <mat-error
-          *ngIf="newOfferForm.get('startDate')?.hasError('required') && newOfferForm.get('startDate')?.touched || newOfferForm.get('endDate')?.hasError('required') && newOfferForm.get('endDate')?.touched">
-          Las fechas de inicio y fin son obligatorias
-        </mat-error>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      </mat-form-field>
-      <mat-form-field class="form-full-width" appearance="fill">
-        <mat-label>Ciclos</mat-label>
-        <mat-select formControlName="fps" multiple>
-          <mat-option *ngFor="let fp of fpList" [value]="fp">{{fp.name}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="newOfferForm.get('fps')?.hasError('required') && newOfferForm.get('fps')?.touched">Debes
-          seleccionar una FP como mínimo
-        </mat-error>
-      </mat-form-field>
-    </form>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <mat-error *ngIf="newOfferForm.invalid">Por favor, completa el formulario.
-    </mat-error>
-    <hr>
-    <button mat-button matDialogClose="no">Cancelar</button>
-    <button (click)="newOfferSubmit()" mat-button>Publicar</button>
-  </mat-dialog-actions>
-</ng-template>
-
-<ng-template #contactStudentDialogForm>
-  <h2 mat-dialog-title>Contactar con el estudiante</h2>
-  <mat-divider></mat-divider>
-  <br>
-  <mat-dialog-content class="mat-typography">
-    <form class="form" [formGroup]="contactStudentForm">
-      <mat-form-field appearance="fill" class="form-full-width">
-        <mat-label>Mensaje</mat-label>
-        <textarea matInput formControlName="message"></textarea>
-      </mat-form-field>
-    </form>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <mat-error *ngIf="contactStudentForm.invalid">Por favor, introduce un mensaje.
-    </mat-error>
-    <hr>
-    <button mat-button matDialogClose="no">Cancelar</button>
-    <button (click)="onContactStudent()" mat-button>Enviar</button>
-  </mat-dialog-actions>
-</ng-template>

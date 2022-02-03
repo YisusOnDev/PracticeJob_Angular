@@ -1,13 +1,14 @@
-import { EditOfferData } from './../../_modals/edit-offer-modal/edit-offer.modal';
-import { Student } from './../../_models/student';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { ContactStudentModal } from 'src/app/_modals/contact-student/contact-student.modal';
+import { EditOfferData, EditOfferModal } from 'src/app/_modals/edit-offer/edit-offer.modal';
+import { NewOfferData, NewOfferModal } from 'src/app/_modals/new-offer/new-offer.modal';
 import { FP } from 'src/app/_models/fp';
 import { JobOffer } from 'src/app/_models/joboffer';
 import { AppService } from 'src/app/_services/app.service';
@@ -15,9 +16,9 @@ import { AuthenticationService } from 'src/app/_services/auth.service';
 import { FPService } from 'src/app/_services/fp.service';
 import { JobApplicationService } from 'src/app/_services/job-application.service';
 import { JobOfferService } from 'src/app/_services/job-offer.service';
-import { JobApplication } from './../../_models/joboffer';
 import { NotificationService } from 'src/app/_services/notification.service';
-import { EditOfferModal } from 'src/app/_modals/edit-offer-modal/edit-offer.modal';
+import { JobApplication } from './../../_models/joboffer';
+import { Student } from './../../_models/student';
 
 @Component({
   selector: 'app-home',
@@ -34,9 +35,6 @@ import { EditOfferModal } from 'src/app/_modals/edit-offer-modal/edit-offer.moda
 })
 
 export class HomeComponent implements OnInit {
-  @ViewChild('newOfferDialogForm') newOfferDialogForm!: TemplateRef<any>;
-  @ViewChild('editOfferDialogForm') editOfferDialogForm!: TemplateRef<any>;
-  @ViewChild('contactStudentDialogForm') contactStudentDialogForm!: TemplateRef<any>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   fpList!: FP[];
@@ -70,6 +68,14 @@ export class HomeComponent implements OnInit {
 
     this.refreshOffersTable();
 
+    setTimeout(() => {
+      this.appService.setTitle('Inicio');
+    });
+  }
+
+  // Open New Form Dialog
+  addButtonPressed() {
+
     this.newOfferForm = this.fb.group({
       name: ['', [Validators.required, Validators.max(65)]],
       description: ['', Validators.required],
@@ -80,45 +86,39 @@ export class HomeComponent implements OnInit {
       fps: ['', Validators.required],
     });
 
-    this.contactStudentForm = this.fb.group({
-      message: ['', [Validators.required]]
+    let newOfferData: NewOfferData = { newOfferForm: this.newOfferForm, fpList: this.fpList }
+    const dialogRef = this.dialog.open(NewOfferModal, {
+      width: '600px',
+      data: newOfferData,
     });
 
-    setTimeout(() => {
-      this.appService.setTitle('Inicio');
-    });
-  }
+    dialogRef.afterClosed().subscribe((res: FormGroup) => {
+      if (res != undefined) {
+        this.newOfferForm = res;
 
-  // Open New Form Dialog
-  addButtonPressed() {
-    this.dialog.open(this.newOfferDialogForm);
-  }
-
-  // On New Form Dialog Submit
-  newOfferSubmit() {
-
-    // stop here if form is invalid
-    if (this.newOfferForm.invalid) {
-      return;
-    }
-
-    const f = this.newOfferForm.controls;
-    var company = this.authenticationService.currentCompanyValue;
-    var emptyJobApplications: JobApplication[] = [];
-
-    var newOffer = new JobOffer(f.name.value, company.id, company, f.description.value, f.remuneration.value, f.startDate.value, f.endDate.value, f.fps.value, emptyJobApplications, f.schedule.value);
-    this.jobOfferService.create(newOffer)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.refreshOffersTable();
-          this.notificationService.showSuccess("¡Oferta publicada con éxito!", "Oferta publicada");
-        },
-        error: () => {
-          this.notificationService.showGenericError();
+        // stop here if form is invalid
+        if (this.newOfferForm.invalid) {
+          return;
         }
-      });
-    this.dialog.closeAll();
+
+        const f = this.newOfferForm.controls;
+        var company = this.authenticationService.currentCompanyValue;
+        var emptyJobApplications: JobApplication[] = [];
+
+        var newOffer = new JobOffer(f.name.value, company.id, company, f.description.value, f.remuneration.value, f.startDate.value, f.endDate.value, f.fps.value, emptyJobApplications, f.schedule.value);
+        this.jobOfferService.create(newOffer)
+          .pipe(first())
+          .subscribe({
+            next: () => {
+              this.refreshOffersTable();
+              this.notificationService.showSuccess("¡Oferta publicada con éxito!", "Oferta publicada");
+            },
+            error: () => {
+              this.notificationService.showGenericError();
+            }
+          });
+      }
+    });
   }
 
   // Open Delete Confirm Dialog
@@ -196,7 +196,7 @@ export class HomeComponent implements OnInit {
   // Refresh offers table data
   refreshOffersTable() {
     this.jobOfferService.getAllFromCompanyId(this.authenticationService.currentCompanyValue.id).pipe(first()).subscribe(offers => {
-      this.companyOffersTable = offers;
+      this.companyOffersTable = offers; 
       this.tableDataSource = new MatTableDataSource<JobOffer>(this.companyOffersTable);
       this.tableDataSource.paginator = this.paginator;
     });
@@ -241,32 +241,44 @@ export class HomeComponent implements OnInit {
   contactStudentPrompt(student: Student) {
     if (student != null) {
       this.contactStudentMail = student.email;
-      this.dialog.open(this.contactStudentDialogForm);
-    } else {
-      this.notificationService.showError("El usuario no tiene ningún correo electrónico asociado", "Error");
-    }
-  }
 
-  onContactStudent() {
-    // stop here if form is invalid
-    if (this.contactStudentForm.invalid) {
-      return;
-    }
+      this.contactStudentForm = this.fb.group({
+        message: ['', [Validators.required]]
+      });
 
-    const f = this.contactStudentForm.controls;
-    var message = f.message.value;
-    var companyName = this.authenticationService.currentCompanyValue.name;
-    this.jobApplicationService.contactStudent(this.contactStudentMail, companyName, message)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.notificationService.showInfo("¡Email de contacto envíado con éxito", "Email envíado");
-        },
-        error: (error) => {
-          this.notificationService.showGenericError();
+      const dialogRef = this.dialog.open(ContactStudentModal, {
+        width: '600px',
+        data: this.contactStudentForm,
+      });
+
+      dialogRef.afterClosed().subscribe((res: FormGroup) => {
+        if (res != undefined) {
+          // stop here if form is invalid
+          if (this.contactStudentForm.invalid) {
+            return;
+          }
+
+          const f = this.contactStudentForm.controls;
+          var message = f.message.value;
+          var companyName = this.authenticationService.currentCompanyValue.name;
+          this.jobApplicationService.contactStudent(this.contactStudentMail, companyName, message)
+            .pipe(first())
+            .subscribe({
+              next: (result) => {
+                if (result == true) {
+                  this.notificationService.showInfo("¡Email de contacto envíado con éxito!", "Email envíado");
+                } else {
+                  this.notificationService.showError("¡No hemos podido contactar con el estudiante!", "Error");
+                }
+              },
+              error: () => {
+                this.notificationService.showGenericError();
+              }
+            });
         }
       });
-    this.dialog.closeAll();
+    } else {
+      this.notificationService.showError("El estudiante no tiene ningún email asociado a su cuenta", "Error");
+    }
   }
-
 }

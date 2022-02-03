@@ -1,4 +1,3 @@
-import { EditOfferModal } from './_modals/edit-offer-modal/edit-offer.modal';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
@@ -21,6 +20,9 @@ import { getSpanishPaginatorIntl } from './_helpers/mat-paginator-es';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ConfirmAccountComponent } from './_components/confirm-account/confirm-account.component';
 import { ToastrModule } from 'ngx-toastr';
+import { EditOfferModal } from './_modals/edit-offer/edit-offer.modal';
+import { NewOfferModal } from './_modals/new-offer/new-offer.modal';
+import { ContactStudentModal } from './_modals/contact-student/contact-student.modal';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { ToastrModule } from 'ngx-toastr';
     NavigationComponent,
     ProfileComponent,
     ConfirmAccountComponent,
-    EditOfferModal
+    EditOfferModal,
+    NewOfferModal,
+    ContactStudentModal
   ],
   imports: [
     BrowserModule,

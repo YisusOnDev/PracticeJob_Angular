@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FP } from './../../_models/fp';
-import { FPService } from './../../_services/fp.service';
+import { FP } from 'src/app/_models/fp';
 
 @Component({
   selector: 'app-edit-offer-modal',
