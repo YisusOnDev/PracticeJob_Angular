@@ -10,11 +10,12 @@ export class Student {
     provinceId: number;
     province: Province;
     city: string;
+    profileImage: string;
     fpId: number;
     fp: FP;
     fpCalification: number;
 
-    constructor(id: number, email: string, name: string, lastname: string, birthDate: Date, provinceId: number, province: Province, city: string, fpId: number, fp: FP, fpCalification: number) {
+    constructor(id: number, email: string, name: string, lastname: string, birthDate: Date, provinceId: number, province: Province, city: string, profileImage: string, fpId: number, fp: FP, fpCalification: number) {
         this.id = id
         this.email = email
         this.name = name
@@ -23,6 +24,7 @@ export class Student {
         this.provinceId = provinceId
         this.province = province
         this.city = city
+        this.profileImage = profileImage
         this.fpId = fpId
         this.fp = fp
         this.fpCalification = fpCalification

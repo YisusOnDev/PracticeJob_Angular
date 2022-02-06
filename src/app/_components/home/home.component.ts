@@ -19,6 +19,7 @@ import { JobOfferService } from 'src/app/_services/job-offer.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { JobApplication } from './../../_models/joboffer';
 import { Student } from './../../_models/student';
+import { getProfileImage } from 'src/app/_helpers/utils';
 
 @Component({
   selector: 'app-home',
@@ -196,7 +197,7 @@ export class HomeComponent implements OnInit {
   // Refresh offers table data
   refreshOffersTable() {
     this.jobOfferService.getAllFromCompanyId(this.authenticationService.currentCompanyValue.id).pipe(first()).subscribe(offers => {
-      this.companyOffersTable = offers; 
+      this.companyOffersTable = offers;
       this.tableDataSource = new MatTableDataSource<JobOffer>(this.companyOffersTable);
       this.tableDataSource.paginator = this.paginator;
     });
@@ -239,6 +240,7 @@ export class HomeComponent implements OnInit {
   }
 
   contactStudentPrompt(student: Student) {
+    alert(student.profileImage);
     if (student != null) {
       this.contactStudentMail = student.email;
 
@@ -280,5 +282,9 @@ export class HomeComponent implements OnInit {
     } else {
       this.notificationService.showError("El estudiante no tiene ningún email asociado a su cuenta", "Error");
     }
+  }
+
+  getProfileImage(image: string, type: string) {
+    return getProfileImage(image, type);
   }
 }

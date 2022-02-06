@@ -16,7 +16,7 @@
           <mat-card-title style="text-align:left;">Editar perfil</mat-card-title>
           <mat-card-content>
             <label class="hoverable" for="fileInput">
-              <img [src]="currentCompany.profileImage ? currentCompany.profileImage : 'https://www.w3schools.com/howto/img_avatar.png'"> 
+              <img src="{{getProfileImage(currentCompany.profileImage, 'company')}}"> 
               <div class="hover-text">Seleccionar imagen</div>
               <div class="background"></div>
             </label>

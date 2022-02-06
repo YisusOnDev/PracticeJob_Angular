@@ -34,6 +34,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 const materialModules = [
@@ -71,7 +72,8 @@ const materialModules = [
   MatTooltipModule,
   MatDialogModule,
   MatNativeDateModule,
-  MatStepperModule
+  MatStepperModule,
+  MatSlideToggleModule
 ];
 
 @NgModule({

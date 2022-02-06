@@ -3,7 +3,7 @@
 }
 
 p {
-    font-family: Lato;
+    font-family: 'Nunito';
 }
 
 img {
@@ -18,7 +18,7 @@ img {
     cursor: pointer;
     height: 200px;
     width: 200px;
-    border: 5px solid #000;
+    border: 4px solid #6f35a5;
     border-radius: 50%;
 }
 

@@ -8,7 +8,7 @@ import { first } from 'rxjs/operators';
 import { Province } from 'src/app/_models/province';
 import { AuthenticationService } from 'src/app/_services/auth.service';
 import { ProvinceService } from 'src/app/_services/province.service';
-import { getCurrentProvinceIndex } from 'src/app/_helpers/utils';
+import { getCurrentProvinceIndex, getProfileImage } from 'src/app/_helpers/utils';
 
 @Component({
   selector: 'app-profile',
@@ -92,6 +92,10 @@ export class ProfileComponent implements OnInit {
           }
         });
     }
+  }
+
+  getProfileImage(image: string, type: string) {
+    return getProfileImage(image, type);
   }
 
 }
