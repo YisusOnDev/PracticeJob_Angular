@@ -47,7 +47,6 @@ export class HomeComponent implements OnInit {
   companyOffersTable: JobOffer[] = [];
   tableDataSource: any;
   contactStudentMail!: string;
-
   jobApplicationsModes = [
     { value: 0, viewValue: 'Pendiente' },
     { value: 1, viewValue: 'Aceptado' },

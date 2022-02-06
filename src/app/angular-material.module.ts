@@ -35,6 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 const materialModules = [
@@ -73,7 +74,8 @@ const materialModules = [
   MatDialogModule,
   MatNativeDateModule,
   MatStepperModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatProgressBarModule
 ];
 
 @NgModule({

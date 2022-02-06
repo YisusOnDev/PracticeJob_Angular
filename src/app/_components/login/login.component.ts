@@ -2,7 +2,7 @@ import { NotificationService } from 'src/app/_services/notification.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { delay, first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/auth.service';
 
 @Component({
@@ -107,6 +107,9 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: () => {
             this.router.navigate(['home']);
+          },
+          error: () => {
+            this.notificationSerivce.showGenericError();
           }
         });
     } else {

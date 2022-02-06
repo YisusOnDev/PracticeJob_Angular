@@ -253,3 +253,9 @@ $altTheme: (
 .mat-badge-content {
   font-family: 'Nunito';
 }
+
+@import '~@angular/material/theming';
+$custom-typography: mat-typography-config(
+  $font-family: 'Nunito'
+);
+@include mat-core($custom-typography);

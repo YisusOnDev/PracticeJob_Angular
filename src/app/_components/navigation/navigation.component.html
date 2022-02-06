@@ -1,3 +1,4 @@
+
 <mat-toolbar color="primary">
   <button mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$">
     <mat-icon>menu</mat-icon>
@@ -28,6 +29,11 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
+    <!-- Loading visual -->
+    <div *ngIf="loaderService.isBarLoading | async" class="loader-container">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
+  
 </mat-sidenav-container>

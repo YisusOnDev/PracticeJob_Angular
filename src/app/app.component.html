@@ -1,2 +1,12 @@
+<div *ngIf="loaderService.isSpinnerLoading | async" class="shadow-background">
+    <div class="spinner-container">
+        <!--<mat-spinner mode="indeterminate"></mat-spinner>-->
+        <div class="loader">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+        </div>
+    </div>
+</div>
 <app-navigation *ngIf="loggedIn() == true"></app-navigation>
 <app-login *ngIf="loggedIn() == false"></app-login>

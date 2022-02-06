@@ -19,3 +19,9 @@
 .active-list-item {
   color: #6f35a5 !important; /* Note: You could also use a custom theme */
 }
+
+.loader-container {
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+}
