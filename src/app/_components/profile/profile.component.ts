@@ -1,14 +1,14 @@
-import { NotificationService } from './../../_services/notification.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 import { Company } from './../../_models/company';
-import { AppService } from './../../_services/app.service';
+import { AppService } from 'src/app/_services/app.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { Province } from './../../_models/province';
-import { AuthenticationService } from './../../_services/auth.service';
-import { ProvinceService } from './../../_services/province.service';
-import { getCurrentProvinceIndex, getProfileImage } from './../../_helpers/utils';
+import { Province } from 'src/app/_models/province';
+import { AuthenticationService } from 'src/app/_services/auth.service';
+import { ProvinceService } from 'src/app/_services/province.service';
+import { getCurrentProvinceIndex, getProfileImage } from 'src/app/_helpers/utils';
 
 @Component({
   selector: 'app-profile',

@@ -6,7 +6,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Company } from './../../_models/company';
+import { Company } from 'src/app/_models/company';
 
 @Component({
   selector: 'app-navigation',

@@ -1,10 +1,10 @@
-import { AuthenticationService } from './../../_services/auth.service';
-import { ProvinceService } from './../../_services/province.service';
-import { Province } from './../../_models/province';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { Province } from 'src/app/_models/province';
+import { AuthenticationService } from 'src/app/_services/auth.service';
+import { ProvinceService } from 'src/app/_services/province.service';
 
 @Component({
   selector: 'app-complete-profile',

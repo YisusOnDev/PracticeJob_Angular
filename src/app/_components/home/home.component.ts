@@ -6,20 +6,20 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { ContactStudentModal } from './../../_modals/contact-student/contact-student.modal';
-import { EditOfferData, EditOfferModal } from './../../_modals/edit-offer/edit-offer.modal';
-import { NewOfferData, NewOfferModal } from './../../_modals/new-offer/new-offer.modal';
-import { FP } from './../../_models/fp';
-import { JobOffer } from './../../_models/joboffer';
-import { AppService } from './../../_services/app.service';
-import { AuthenticationService } from './../../_services/auth.service';
-import { FPService } from './../../_services/fp.service';
-import { JobApplicationService } from './../../_services/job-application.service';
-import { JobOfferService } from './../../_services/job-offer.service';
-import { NotificationService } from './../../_services/notification.service';
+import { ContactStudentModal } from 'src/app/_modals/contact-student/contact-student.modal';
+import { EditOfferData, EditOfferModal } from 'src/app/_modals/edit-offer/edit-offer.modal';
+import { NewOfferData, NewOfferModal } from 'src/app/_modals/new-offer/new-offer.modal';
+import { FP } from 'src/app/_models/fp';
+import { JobOffer } from 'src/app/_models/joboffer';
+import { AppService } from 'src/app/_services/app.service';
+import { AuthenticationService } from 'src/app/_services/auth.service';
+import { FPService } from 'src/app/_services/fp.service';
+import { JobApplicationService } from 'src/app/_services/job-application.service';
+import { JobOfferService } from 'src/app/_services/job-offer.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 import { JobApplication } from './../../_models/joboffer';
 import { Student } from './../../_models/student';
-import { getProfileImage } from './../../_helpers/utils';
+import { getProfileImage } from 'src/app/_helpers/utils';
 
 @Component({
   selector: 'app-home',

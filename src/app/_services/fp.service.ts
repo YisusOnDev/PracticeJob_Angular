@@ -1,4 +1,4 @@
-import { FP } from './../_models/fp';
+import { FP } from 'src/app/_models/fp';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
