@@ -45,22 +45,15 @@ export class AppComponent {
   // Handle route changes to show progress spinner
   private navigationInterceptor(event: any): void {
     if (event instanceof NavigationStart) {
-      console.log("Nav start");
       this.loaderService.isBarLoading.next(true);
     }
     if (event instanceof NavigationEnd) {
-      
-      console.log("Nav end");
       this.loaderService.isBarLoading.next(false);
     }
     if (event instanceof NavigationCancel) {
-      
-      console.log("Nav cancel");
       this.loaderService.isBarLoading.next(false);
     }
     if (event instanceof NavigationError) {
-      
-      console.log("Nav error");
       this.loaderService.isBarLoading.next(false);
     }
   }

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FP } from 'src/app/_models/fp';
+import { FP } from './../../_models/fp';
 
 @Component({
   selector: 'app-new-offer-modal',

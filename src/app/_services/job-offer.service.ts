@@ -1,4 +1,4 @@
-import { JobOffer } from 'src/app/_models/joboffer';
+import { JobOffer } from './../_models/joboffer';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
