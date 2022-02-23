@@ -1,0 +1,22 @@
+<mat-card class="container">
+  <mat-card-header>
+    <mat-card-title>
+      Planes de Subscripción
+    </mat-card-title>
+  </mat-card-header>
+    <div class="premium">
+      <div class="basic">Plan Premium</div>
+      <header>9,99<span>€</span>/mes</header>
+      <div class="content">
+          <p>Servidor prioritario</p>
+          <p>Acceso al listado de usuarios</p>
+          <p>Contacto directo con usuarios mediante mensajería interna</p>
+      </div>
+      <div class="send">
+          <button mat-raised-button color="accent" (click)="buyPremium()">
+            <mat-icon>subscriptions</mat-icon>
+            CONTRATAR
+          </button>
+      </div>
+    </div>
+</mat-card>

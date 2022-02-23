@@ -6,6 +6,13 @@
   <span>{{title}}</span>
   <span class="toolbaritem-spacer"></span>
   <!-- Profile Menu START-->
+  <div *ngIf="premiumService.getCurrentPlanValue == 'free'">
+    <button mat-raised-button color="accent" routerLink="gopremium">
+      <mat-icon>hotel_class</mat-icon>
+      ¡HAZTE PREMIUM!
+      <mat-icon>hotel_class</mat-icon>
+    </button>
+  </div>
   <button mat-button [matMenuTriggerFor]="profileMenu">
     <mat-icon mat-list-icon class="material-icons">account_box</mat-icon>
   </button>

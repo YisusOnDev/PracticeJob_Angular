@@ -1,10 +1,14 @@
+import { UserListingComponent } from './_components/user-listing/user-listing.component';
+import { PaymentFailureComponent } from './_components/paymentfailure/paymentfailure.component';
+import { PaymentSuccessComponent } from './_components/paymentsuccess/paymentsuccess.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BuyPremiumComponent } from './_components/buypremium/buypremium.component';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppService } from 'src/app/_services/app.service';
 import { AngularMaterialModule } from './angular-material.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +27,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { EditOfferModal } from './_modals/edit-offer/edit-offer.modal';
 import { NewOfferModal } from './_modals/new-offer/new-offer.modal';
 import { ContactStudentModal } from './_modals/contact-student/contact-student.modal';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -35,7 +40,11 @@ import { ContactStudentModal } from './_modals/contact-student/contact-student.m
     ConfirmAccountComponent,
     EditOfferModal,
     NewOfferModal,
-    ContactStudentModal
+    ContactStudentModal,
+    BuyPremiumComponent,
+    PaymentSuccessComponent,
+    PaymentFailureComponent,
+    UserListingComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +63,7 @@ import { ContactStudentModal } from './_modals/contact-student/contact-student.m
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl()},
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     AppService
   ],
   bootstrap: [AppComponent]

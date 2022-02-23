@@ -1,0 +1,85 @@
+.container{
+    width: 250px;
+    height: auto;
+    margin-left: 35px;
+    margin-top: 15px;
+    justify-content: space-between;
+}
+.container .three{
+    width: calc(950px / 3);
+    background-color: #FFFFFF;
+    border-radius: 7px;
+}
+.container  header{
+    padding: 20px;
+    margin-top: 25px;
+    text-align: center;
+    font-size: 45px;
+    color: #35354A;
+}
+.container  span{
+    font-size: 30px;
+    position: relative;
+    top: -13px;
+}
+.container .basic{
+    width: 120px;
+    background: #13C8A6;
+    color: white;
+    padding: 10px;
+    border-top-right-radius: 13px;
+    border-bottom-right-radius: 13px;
+    font-size: 20px;
+    text-align: center;
+    position: relative;
+    left: -25px;
+}
+.container .basic::before{
+    content: "";
+    position: absolute;
+    border-width: 4px;
+    border-style: solid;
+    border-color: transparent #10AA8C #10AA8C transparent;
+    left: 0px;
+    top: -8px;
+}
+.container .content{
+    margin-top: 30px;
+    text-align: center;
+    color: #35354A;
+}
+.container .content p:first-child{
+    line-height: 2.3;
+}
+.container .send{
+    text-align: center;
+}
+.container .send button{
+    border: none;
+    background-color: transparent;
+    padding: 15px 25px;
+    cursor: pointer;
+    color: white;
+    background-color: #13C8A6;
+    display: inline-block;
+    border-radius: 7px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    font-size: 15px;
+}
+
+.container .premium{
+    position: relative;
+    top: 25px;
+}
+.container .premium .basic{
+    background-color: #3f51b5;
+}
+.container .premium .basic::before{
+    content: "";
+    border-color: transparent #616eb4 #3f51b5 transparent;
+}
+.container .premium .send button{
+    background-color: #3f51b5;
+}
+/* Div Tree End  */

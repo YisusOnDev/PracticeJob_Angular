@@ -1,7 +1,8 @@
+import { PremiumService } from './premium.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Company } from '../_models/company';
 
@@ -12,7 +13,7 @@ export class AuthenticationService {
     private currentCompanySubject: BehaviorSubject<Company>;
     public currentCompany: Observable<Company>;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private premiumService: PremiumService) {
         this.tokenSubject = new BehaviorSubject<String>(sessionStorage.getItem('token')!);
         this.currentToken = this.tokenSubject.asObservable();
 
@@ -46,10 +47,8 @@ export class AuthenticationService {
             .pipe(
                 map((response: any) => {
                     const body = response.body;
-
                     // Map result to a company object
-                    var company = new Company(body.id, body.email, body.profileImage, body.name, body.address, body.provinceId, body.province, body.validatedEmail);
-
+                    var company = body;
                     // Store company details and jwt token in local storage to keep user logged in between page refreshes
                     sessionStorage.setItem('company', JSON.stringify(company));
                     this.currentCompanySubject.next(company);
@@ -60,6 +59,21 @@ export class AuthenticationService {
                     this.tokenSubject.next(token);
 
                     if (this.currentTokenValue != null && this.currentTokenValue != '') {
+                        // Check if company has premium plan
+                        this.premiumService.hasPremiumPlan(this.currentCompanyValue)
+                            .pipe(first())
+                            .subscribe({
+                                next: (result) => {
+                                    if (result == true) {
+                                        this.premiumService.setCurrentPlanValue('premium')
+                                    } else {
+                                        this.premiumService.setCurrentPlanValue('free')
+                                    }
+                                },
+                                error: () => {
+                                    this.premiumService.setCurrentPlanValue('free')
+                                }
+                            });
                         return company;
                     }
                     return null;
@@ -81,7 +95,8 @@ export class AuthenticationService {
             .pipe(map((result: any) => {
                 const body = result.body;
                 // Map result to a company object
-                var company = new Company(body.id, body.email, body.profileImage, body.name, body.address, body.provinceId, body.province, body.validatedEmail);
+                var company = body;
+                //new Company(body.id, body.email, body.profileImage, body.name, body.address, body.provinceId, body.province, body.validatedEmail);
 
                 // Store new company details in local storage to keep user logged in between page refreshes
                 sessionStorage.setItem('company', JSON.stringify(company));
@@ -111,7 +126,8 @@ export class AuthenticationService {
         return this.http.put<any>(`${environment.apiUrl}/Company`, jsonToSend, { headers })
             .pipe(map(result => {
                 // Map result to a company object with token
-                var company = new Company(result.id, result.email, result.profileImage, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
+                var company = result;
+                //new Company(result.id, result.email, result.profileImage, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
 
                 // Store new company details in local storage to keep user logged in between page refreshes
                 sessionStorage.setItem('company', JSON.stringify(company));
@@ -143,7 +159,7 @@ export class AuthenticationService {
         return this.http.post<any>(`${environment.apiUrl}/Company/ValidateEmail?code=${code}`, this.currentCompanyValue, { headers })
             .pipe(map(result => {
                 // Map result to a company object with token
-                var company = new Company(result.id, result.email, result.profileImage, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
+                var company = result;
 
                 // Store new company details in local storage to keep user logged in between page refreshes
                 sessionStorage.setItem('company', JSON.stringify(company));
@@ -185,11 +201,11 @@ export class AuthenticationService {
      * @returns Company Updated Object
      */
     uploadProfileImage(image: FormData) {
-        return this.http.post<any>(`${environment.apiUrl}/Company/UploadImage?companyId=${this.currentCompanyValue.id}`, image, {reportProgress: true, observe: 'response'})
+        return this.http.post<any>(`${environment.apiUrl}/Company/UploadImage?companyId=${this.currentCompanyValue.id}`, image, { reportProgress: true, observe: 'response' })
             .pipe(map(apiResult => {
                 const result = apiResult.body;
                 // Map result to a company object with token
-                var company = new Company(result.id, result.email, result.profileImage, result.name, result.address, result.provinceId, result.province, result.validatedEmail);
+                var company = result;
 
                 // Store new company details in local storage to keep user logged in between page refreshes
                 sessionStorage.setItem('company', JSON.stringify(company));
@@ -224,6 +240,7 @@ export class AuthenticationService {
 
         return this.http.post<any>(`${environment.apiUrl}/Company/Authorized`, { companyJson }, { headers })
             .pipe(map(result => {
+                
                 return result;
             }));
     }
@@ -233,6 +250,7 @@ export class AuthenticationService {
      */
     logout() {
         // Remove local storage data to log user out
+        this.premiumService.resetPlan();
         sessionStorage.removeItem('company');
         this.currentCompanySubject.next(null!);
         sessionStorage.removeItem('token');

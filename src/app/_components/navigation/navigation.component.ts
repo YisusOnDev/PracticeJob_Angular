@@ -1,3 +1,4 @@
+import { PremiumService } from './../../_services/premium.service';
 import { LoaderService } from './../../_services/loader.service';
 import { AuthenticationService } from '../../_services/auth.service';
 import { AppService } from '../../_services/app.service';
@@ -24,7 +25,7 @@ export class NavigationComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router, private authenticationService: AuthenticationService, private appService: AppService, public loaderService: LoaderService) {
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router, private authenticationService: AuthenticationService, private appService: AppService, public premiumService: PremiumService, public loaderService: LoaderService) {
     this.appService.getTitle().subscribe(appTitle => this.title = appTitle);
     this.authenticationService.currentCompany.subscribe(x => this.currentCompany = x);
 

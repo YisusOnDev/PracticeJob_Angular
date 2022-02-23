@@ -9,8 +9,9 @@ export class Company {
     provinceId: number;
     province: Province;
     validatedEmail: boolean;
+    stripeId: string;
 
-    constructor(id: number, email: string, profileImage: string, name: string, address: string, provinceId: number, province: Province, validatedEmail: boolean) {
+    constructor(id: number, email: string, profileImage: string, name: string, address: string, provinceId: number, province: Province, validatedEmail: boolean, stripeId: string) {
         this.id = id
         this.email = email
         this.profileImage = profileImage
@@ -19,5 +20,6 @@ export class Company {
         this.provinceId = provinceId
         this.province = province
         this.validatedEmail = validatedEmail
+        this.stripeId = stripeId
     }
 }

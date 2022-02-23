@@ -10,8 +10,8 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div *ngIf="!tableDataSource.data.length">No tienes ninguna oferta publicada actualmente</div>
-      <table *ngIf="tableDataSource.data.length" mat-table [dataSource]="tableDataSource" multiTemplateDataRows matSort>
+      <div *ngIf="!tableDataSource?.data?.length">No tienes ninguna oferta publicada actualmente</div>
+      <table *ngIf="tableDataSource?.data?.length" mat-table [dataSource]="tableDataSource" multiTemplateDataRows matSort>
         <ng-container matColumnDef="seemore">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
@@ -113,7 +113,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="student-detail-row"></tr>
       </table>
-        <mat-paginator [hidden]="!tableDataSource.data.length" [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator [hidden]="!tableDataSource?.data?.length" [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>
