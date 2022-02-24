@@ -12,29 +12,29 @@ export class PremiumService {
     public currentPlan: Observable<String>;
 
     constructor(private http: HttpClient) {
-        this.planSubject = new BehaviorSubject<String>(sessionStorage.getItem('plan')!);
+        this.planSubject = new BehaviorSubject<String>(localStorage.getItem('plan')!);
         this.currentPlan = this.planSubject.asObservable();
     }
 
     /**
-     * Get current sessionStorage token data
+     * Get current localStorage token data
      */
     public get getCurrentPlanValue(): String {
         return this.planSubject.value;
     }
 
     public setCurrentPlanValue(plan: String) {
-        sessionStorage.setItem('plan', plan.toString());
+        localStorage.setItem('plan', plan.toString());
         this.planSubject.next(plan);
     }
 
     public resetPlan() {
-        sessionStorage.removeItem('plan');
+        localStorage.removeItem('plan');
         this.planSubject.next(null!);
     }
 
     /**
-     * API POST Request method that send a login request. If login is correct save data to sessionStorage (including jwt token)
+     * API POST Request method that send a login request. If login is correct save data to localStorage (including jwt token)
      * @param email
      * @param password 
      * @returns Company Object
