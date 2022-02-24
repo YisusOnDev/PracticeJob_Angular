@@ -16,9 +16,6 @@ export class PremiumService {
         this.currentPlan = this.planSubject.asObservable();
     }
 
-    /**
-     * Get current localStorage token data
-     */
     public get getCurrentPlanValue(): String {
         return this.planSubject.value;
     }
@@ -54,6 +51,11 @@ export class PremiumService {
             );
     }
 
+    /**
+     * POST Method that generates an stripe payment link for a subscription
+     * @param company Company object
+     * @returns the stripe payment url
+     */
     generatePayLink(company: Company) {
         const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         var jsonToSend = JSON.stringify(company);
@@ -69,6 +71,14 @@ export class PremiumService {
             );
     }
 
+    /**
+     * POST Method that handle a list of students filtered
+     * @param company Company object
+     * @param filter Filter to use (string)
+     * @param fpId id of fp to search if any
+     * @param provinceId  id of province to search if any
+     * @returns filtered list of all filtered students
+     */
     searchStudents(company: Company, filter: string, fpId?: number, provinceId?: number) {
         var endpoint = 'Student/';
         switch (filter) {
@@ -95,6 +105,11 @@ export class PremiumService {
             );
     }
 
+    /**
+     * POST Method that sends a message to a student (private message)
+     * @param privateMessage the company message that need to be sent to the student
+     * @returns true if done false if fails
+     */
     messageStudent(privateMessage: PrivateMessage) {
         const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         var jsonToSend = JSON.stringify(privateMessage);

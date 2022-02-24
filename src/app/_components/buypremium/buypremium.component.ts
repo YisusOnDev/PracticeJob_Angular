@@ -15,6 +15,9 @@ export class BuyPremiumComponent implements OnInit {
   constructor(private router: Router, private authService: AuthenticationService, private premiumService: PremiumService, private notificationService: NotificationService) { }
 
   ngOnInit() {
+    /**
+     * Check if already has premium
+     */
     this.premiumService.hasPremiumPlan(this.authService.currentCompanyValue)
       .pipe(first())
       .subscribe({
@@ -27,6 +30,9 @@ export class BuyPremiumComponent implements OnInit {
       });
   }
 
+  /**
+   * Contract premium button pressed
+   */
   buyPremium() {
     this.premiumService.generatePayLink(this.authService.currentCompanyValue)
       .pipe(first())

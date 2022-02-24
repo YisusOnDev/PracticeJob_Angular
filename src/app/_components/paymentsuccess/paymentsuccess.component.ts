@@ -17,7 +17,6 @@ export class PaymentSuccessComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
       let session_id = params['session_id'];
-      alert("Session_id " + session_id);
       if (session_id == undefined) {
         console.log("Payment Success session_id is undefined, error. returnin home.")
         this.router.navigate(['home']);

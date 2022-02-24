@@ -1,6 +1,9 @@
+import { PremiumService } from './../../_services/premium.service';
+import { AskPremiumModal } from './../../_modals/ask-premium-signup/ask-premium-signup.modal';
+import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/auth.service';
 import { NotificationService } from 'src/app/_services/notification.service';
@@ -18,13 +21,15 @@ export class LoginComponent implements OnInit {
   currentPage = 'login';
   hidePassword = true;
   codeRequested = false;
+  requestingPremium = false;
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private notificationSerivce: NotificationService) {
+    private notificationSerivce: NotificationService,
+    private premiumService: PremiumService,
+    public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -67,6 +72,24 @@ export class LoginComponent implements OnInit {
       this.codeRequested = false;
     }
     this.currentPage = nextPage;
+    if (this.currentPage == 'register') {
+      this.promptPremium();
+    }
+  }
+
+  promptPremium() {
+    const dialogRef = this.dialog.open(AskPremiumModal, {
+      width: '400px',
+      data: false,
+    });
+
+    dialogRef.afterClosed().subscribe((res: boolean) => {
+      if (res != undefined) {
+        if (res == true) {
+          this.requestingPremium = true;
+        }
+      }
+    });
   }
 
   resetPasswordPressed() {
@@ -106,7 +129,26 @@ export class LoginComponent implements OnInit {
         .pipe(first())
         .subscribe({
           next: () => {
-            this.router.navigate(['home']);
+            if (this.requestingPremium == false) {
+              this.router.navigate(['home']);
+            } else {
+              this.premiumService.generatePayLink(this.authenticationService.currentCompanyValue)
+                .pipe(first())
+                .subscribe({
+                  next: (result) => {
+                    if (result == null) {
+                      this.router.navigate(['home']);
+                      this.notificationSerivce.showError("Ha ocurrido un error al intentar generar el enlace de pago de su suscripción.", "Error");
+                      return;
+                    }
+                    window.location.href = result;
+                  },
+                  error: () => {
+                    this.router.navigate(['home']);
+                    this.notificationSerivce.showError("Ha ocurrido un error al intentar generar el enlace de pago de su suscripción.", "Error");
+                  }
+                });
+            }
           },
           error: () => {
             this.notificationSerivce.showGenericError();

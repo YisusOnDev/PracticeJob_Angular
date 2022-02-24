@@ -1,3 +1,4 @@
+import { AskPremiumModal } from './_modals/ask-premium-signup/ask-premium-signup.modal';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
@@ -40,6 +41,7 @@ import { NewOfferModal } from './_modals/new-offer/new-offer.modal';
     EditOfferModal,
     NewOfferModal,
     ContactStudentModal,
+    AskPremiumModal,
     BuyPremiumComponent,
     PaymentSuccessComponent,
     PaymentFailureComponent,

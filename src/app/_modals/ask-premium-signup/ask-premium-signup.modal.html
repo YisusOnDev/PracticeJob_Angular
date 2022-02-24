@@ -1,0 +1,20 @@
+<div class="wrapper">
+  <h2 mat-dialog-title style="text-align: center;">¿Conoces nuestro plan <b>PREMIUM</b>?</h2>
+  <div class="card-area">
+    <div class="cards">
+      <div class="row row-1">
+        <div class="price-details">
+          <span class="price">9,99</span>
+          <p>Para disfrutar la app al máximo</p>
+        </div>
+        <ul class="features">
+          <li><i class="fas fa-check"></i><span>- Servidor prioritario</span></li>
+          <li><i class="fas fa-check"></i><span>- Acceso al listado de usuarios</span></li>
+          <li><i class="fas fa-check"></i><span>- Contacto directo con usuarios mediante mensajería interna</span></li>
+        </ul>
+        <button [mat-dialog-close]="true" cdkFocusInitial>Contratar</button>
+        <button [mat-dialog-close]="false" cdkFocusInitial>Seguir gratis</button>
+      </div>
+    </div>
+  </div>
+</div>

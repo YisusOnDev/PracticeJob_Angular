@@ -12,6 +12,7 @@ export class PaymentFailureComponent implements OnInit {
   constructor(private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit() {
+    /// Return to home cause payment failed but show a message with the information
     this.router.navigate(['home']);
     this.notificationService.showError('No hemos podido verificar tu pago, por favor vuelva a intentarlo.', 'Error de pago')
   }
