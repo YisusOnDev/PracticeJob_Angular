@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'gopremium', component: BuyPremiumComponent, canActivate: [AuthGuard] },
   { path: 'userlisting', component: UserListingComponent, canActivate: [AuthGuard] },
-  { path: 'paymentSuccess', component: PaymentSuccessComponent, canActivate: [AuthGuard] },
+  { path: 'paymentSuccess', component: PaymentSuccessComponent, /*canActivate: [AuthGuard]*/ },
   { path: 'paymentFailure', component: PaymentFailureComponent, canActivate: [AuthGuard] },
 
   // Otherwise redirect any 404 to /
