@@ -54,7 +54,6 @@ export class AppComponent {
       this.loaderService.isBarLoading.next(false);
     }
     if (event instanceof NavigationCancel) {
-      
       console.log("Nav cancel");
       this.loaderService.isBarLoading.next(false);
     }
