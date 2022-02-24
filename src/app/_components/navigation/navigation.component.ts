@@ -31,8 +31,8 @@ export class NavigationComponent {
   }
 
   ngOnInit() {
-    if (this.loggedIn() == true) {
-      this.router.navigate(['home']);
+    if (this.loggedIn() == false) {
+      this.router.navigate(['login']);
     }
   }
 

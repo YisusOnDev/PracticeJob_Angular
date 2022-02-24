@@ -240,7 +240,6 @@ export class HomeComponent implements OnInit {
   }
 
   contactStudentPrompt(student: Student) {
-    alert(student.profileImage);
     if (student != null) {
       this.contactStudentMail = student.email;
 

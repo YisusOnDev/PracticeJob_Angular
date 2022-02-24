@@ -15,15 +15,14 @@ export class PaymentSuccessComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthenticationService, private premiumService: PremiumService, private notificationService: NotificationService) { }
 
   ngOnInit() {
-    console.log("Getted success");
-    alert("succc???");
-    /*this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe(params => {
       let session_id = params['session_id'];
       alert("Session_id " + session_id);
       if (session_id == undefined) {
+        console.log("Payment Success session_id is undefined, error. returnin home.")
         this.router.navigate(['home']);
         return;
-      }*/
+      }
 
       this.premiumService.hasPremiumPlan(this.authService.currentCompanyValue)
         .pipe(first())
@@ -39,6 +38,6 @@ export class PaymentSuccessComponent implements OnInit {
             this.premiumService.setCurrentPlanValue('free')
           }
         });
-    //});
+    });
   }
 }

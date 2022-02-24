@@ -20,8 +20,8 @@ export class AppComponent {
   ) {
     this.authenticationService.currentCompany.subscribe(x => this.currentCompany = x);
 
-    if (this.loggedIn() == true) {
-      this.router.navigate(['home']);
+    if (this.loggedIn() == false) {
+      this.router.navigate(['login']);
     }
 
     this.router.events.subscribe((event: any) => {

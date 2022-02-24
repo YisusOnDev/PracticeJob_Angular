@@ -13,19 +13,18 @@ import { UserListingComponent } from './_components/user-listing/user-listing.co
 import { AuthGuard } from './_helpers/auth.guard';
 
 const routes: Routes = [
-  { path: 'index', component: AppComponent },
   { path: 'login', component: LoginComponent },
   { path: 'confirmaccount', component: ConfirmAccountComponent, canActivate: [AuthGuard] },
   { path: 'completeprofile', component: CompleteProfileComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'gopremium', component: BuyPremiumComponent, canActivate: [AuthGuard] },
-  { path: 'userlisting', component: UserListingComponent, canActivate: [AuthGuard] },
   { path: 'paymentSuccess', component: PaymentSuccessComponent, canActivate: [AuthGuard] },
   { path: 'paymentFailure', component: PaymentFailureComponent, canActivate: [AuthGuard] },
+  { path: 'userlisting', component: UserListingComponent, canActivate: [AuthGuard] },
 
   // Otherwise redirect any 404 to /
-  { path: '**', redirectTo: 'index', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({
