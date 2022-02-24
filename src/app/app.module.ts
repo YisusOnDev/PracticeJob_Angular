@@ -63,7 +63,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl()},
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    //{provide: LocationStrategy, useClass: HashLocationStrategy},
     AppService
   ],
   bootstrap: [AppComponent]
