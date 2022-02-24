@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { asNativeElements, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/auth.service';
@@ -17,7 +17,7 @@ export class PaymentSuccessComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
       let session_id = params['session_id'];
-
+      alert("Session_id " + session_id);
       if (session_id == undefined) {
         this.router.navigate(['home']);
         return;
