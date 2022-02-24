@@ -14,7 +14,7 @@ import { AuthGuard } from './_helpers/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'confirmaccount', component: ConfirmAccountComponent, canActivate: [AuthGuard] },
+  { path: 'confirmaccount/:premium', component: ConfirmAccountComponent, canActivate: [AuthGuard] },
   { path: 'completeprofile', component: CompleteProfileComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },

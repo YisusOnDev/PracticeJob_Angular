@@ -1,12 +1,11 @@
-import { PremiumService } from './../../_services/premium.service';
-import { AskPremiumModal } from './../../_modals/ask-premium-signup/ask-premium-signup.modal';
-import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/auth.service';
 import { NotificationService } from 'src/app/_services/notification.service';
+import { AskPremiumModal } from './../../_modals/ask-premium-signup/ask-premium-signup.modal';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +27,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private notificationSerivce: NotificationService,
-    private premiumService: PremiumService,
     public dialog: MatDialog) {
   }
 
@@ -130,24 +128,9 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: () => {
             if (this.requestingPremium == false) {
-              this.router.navigate(['home']);
+              this.router.navigate(['confirmaccount', 'free'])
             } else {
-              this.premiumService.generatePayLink(this.authenticationService.currentCompanyValue)
-                .pipe(first())
-                .subscribe({
-                  next: (result) => {
-                    if (result == null) {
-                      this.router.navigate(['home']);
-                      this.notificationSerivce.showError("Ha ocurrido un error al intentar generar el enlace de pago de su suscripción.", "Error");
-                      return;
-                    }
-                    window.location.href = result;
-                  },
-                  error: () => {
-                    this.router.navigate(['home']);
-                    this.notificationSerivce.showError("Ha ocurrido un error al intentar generar el enlace de pago de su suscripción.", "Error");
-                  }
-                });
+              this.router.navigate(['confirmaccount', 'premium'])
             }
           },
           error: () => {

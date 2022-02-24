@@ -107,6 +107,7 @@ export class AuthenticationService {
                 localStorage.setItem('token', token);
                 this.tokenSubject.next(token);
                 if (this.currentTokenValue != null && this.currentTokenValue != '') {
+                    this.premiumService.setCurrentPlanValue('free');
                     return company;
                 }
 

@@ -23,12 +23,14 @@ export class PaymentSuccessComponent implements OnInit {
         return;
       }
 
+      console.log("Trying to change plan status to premium status...");
       this.premiumService.hasPremiumPlan(this.authService.currentCompanyValue)
         .pipe(first())
         .subscribe({
           next: (result) => {
             if (result == true) {
               this.premiumService.setCurrentPlanValue('premium')
+              console.log("Premium status setted succesfully");
             } else {
               this.premiumService.setCurrentPlanValue('free')
             }
