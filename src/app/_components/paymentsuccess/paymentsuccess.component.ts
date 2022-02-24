@@ -15,6 +15,8 @@ export class PaymentSuccessComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthenticationService, private premiumService: PremiumService, private notificationService: NotificationService) { }
 
   ngOnInit() {
+    console.log("Getted success")
+    alert("succc???")
     this.activatedRoute.queryParams.subscribe(params => {
       let session_id = params['session_id'];
       alert("Session_id " + session_id);
