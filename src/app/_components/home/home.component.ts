@@ -55,22 +55,23 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder, private notificationService: NotificationService, private authenticationService: AuthenticationService, private router: Router, private fpService: FPService, private jobOfferService: JobOfferService, private appService: AppService, private jobApplicationService: JobApplicationService, public dialog: MatDialog) {
-    const toGo = this.authenticationService.getFirstRoute()
-    if (toGo != null && toGo != 'home') {
-      this.router.navigate([toGo]);
-    }
   }
 
   ngOnInit(): void {
-    this.fpService.getAll().pipe(first()).subscribe(fpList => {
-      this.fpList = fpList;
-    });
+    const toGo = this.authenticationService.getFirstRoute()
+    if (toGo != null && toGo != 'home') {
+      this.router.navigate([toGo]);
+    } else {
+      this.fpService.getAll().pipe(first()).subscribe(fpList => {
+        this.fpList = fpList;
+      });
 
-    this.refreshOffersTable();
+      this.refreshOffersTable();
 
-    setTimeout(() => {
-      this.appService.setTitle('Inicio');
-    });
+      setTimeout(() => {
+        this.appService.setTitle('Inicio');
+      });
+    }
   }
 
   // Open New Form Dialog

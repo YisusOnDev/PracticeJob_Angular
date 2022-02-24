@@ -29,27 +29,27 @@ export class ProfileComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private notificationService: NotificationService) {
     this.authenticationService.currentCompany.subscribe(x => this.currentCompany = x);
-    if (this.authenticationService.currentCompanyValue == null || this.authenticationService.currentCompanyValue.name == undefined || this.authenticationService.currentCompanyValue.name == null) {
-      this.router.navigate(['completeprofile']);
-    }
   }
 
   ngOnInit() {
-    this.form = this.fb.group({
-      name: [this.currentCompany.name, Validators.required],
-      address: [this.currentCompany.address, Validators.required],
-      province: ['', Validators.required]
-    });
-    this.provinceService.getAll().pipe(first()).subscribe(provinces => {
-      this.provinces = provinces;
+    if (this.authenticationService.currentCompanyValue == null || this.authenticationService.currentCompanyValue.name == undefined || this.authenticationService.currentCompanyValue.name == null) {
+      this.router.navigate(['completeprofile']);
+    } else {
+      this.form = this.fb.group({
+        name: [this.currentCompany.name, Validators.required],
+        address: [this.currentCompany.address, Validators.required],
+        province: ['', Validators.required]
+      });
+      this.provinceService.getAll().pipe(first()).subscribe(provinces => {
+        this.provinces = provinces;
 
-      this.form.controls.province.setValue(this.provinces[getCurrentProvinceIndex(this.provinces, this.currentCompany.provinceId)])
-    });
+        this.form.controls.province.setValue(this.provinces[getCurrentProvinceIndex(this.provinces, this.currentCompany.provinceId)])
+      });
 
-    setTimeout(() => {
-      this.appService.setTitle('Perfil');
-    });
-
+      setTimeout(() => {
+        this.appService.setTitle('Perfil');
+      });
+    }
   }
 
   get f() { return this.form.controls }

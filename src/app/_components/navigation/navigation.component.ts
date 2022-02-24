@@ -28,7 +28,9 @@ export class NavigationComponent {
   constructor(private breakpointObserver: BreakpointObserver, private router: Router, private authenticationService: AuthenticationService, private appService: AppService, public premiumService: PremiumService, public loaderService: LoaderService) {
     this.appService.getTitle().subscribe(appTitle => this.title = appTitle);
     this.authenticationService.currentCompany.subscribe(x => this.currentCompany = x);
+  }
 
+  ngOnInit() {
     if (this.loggedIn() == true) {
       this.router.navigate(['home']);
     }

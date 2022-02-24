@@ -227,7 +227,7 @@ export class AuthenticationService {
             }
             return 'home';
         }
-        return '/';
+        return 'index';
     }
 
     /**

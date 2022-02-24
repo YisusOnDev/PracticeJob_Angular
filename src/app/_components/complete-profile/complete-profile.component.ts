@@ -15,34 +15,33 @@ import { ProvinceService } from 'src/app/_services/province.service';
 export class CompleteProfileComponent implements OnInit {
   form!: FormGroup;
   hidePassword = true;
-  
+
   provinces!: Province[];
 
   constructor(
     private fb: FormBuilder,
-    private router: Router, 
+    private router: Router,
     private provinceService: ProvinceService,
     private authenticationService: AuthenticationService) {
-      if (this.authenticationService.currentCompanyValue != null) {
-        if(this.authenticationService.currentCompanyValue.name != undefined || this.authenticationService.currentCompanyValue.name != null){
-          this.router.navigate(['home']);
-        }
-      } else {
-        this.router.navigate(['/']);
-      }
   }
 
   ngOnInit() {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      address: ['', Validators.required],
-      province: ['', Validators.required]
-    });
-    this.provinceService.getAll().pipe(first()).subscribe(provinces => {
-      this.provinces = provinces;
-    }); 
+    if (this.authenticationService.currentCompanyValue != null) {
+      if (this.authenticationService.currentCompanyValue.name != undefined || this.authenticationService.currentCompanyValue.name != null) {
+        this.router.navigate(['home']);
+      } else {
+        this.form = this.fb.group({
+          name: ['', Validators.required],
+          address: ['', Validators.required],
+          province: ['', Validators.required]
+        });
+        this.provinceService.getAll().pipe(first()).subscribe(provinces => {
+          this.provinces = provinces;
+        });
+      }
+    }
   }
-  
+
   get f() { return this.form.controls }
 
   onSubmit() {
