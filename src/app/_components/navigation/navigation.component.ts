@@ -1,13 +1,13 @@
-import { PremiumService } from './../../_services/premium.service';
-import { LoaderService } from './../../_services/loader.service';
-import { AuthenticationService } from '../../_services/auth.service';
-import { AppService } from '../../_services/app.service';
-import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { Company } from 'src/app/_models/company';
+import { AppService } from '../../_services/app.service';
+import { AuthenticationService } from '../../_services/auth.service';
+import { LoaderService } from './../../_services/loader.service';
+import { PremiumService } from './../../_services/premium.service';
 
 @Component({
   selector: 'app-navigation',

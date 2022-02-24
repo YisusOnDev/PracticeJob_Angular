@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { getProfileImage } from 'src/app/_helpers/utils';
 import { ContactStudentModal } from 'src/app/_modals/contact-student/contact-student.modal';
 import { EditOfferData, EditOfferModal } from 'src/app/_modals/edit-offer/edit-offer.modal';
 import { NewOfferData, NewOfferModal } from 'src/app/_modals/new-offer/new-offer.modal';
@@ -19,7 +20,6 @@ import { JobOfferService } from 'src/app/_services/job-offer.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { JobApplication } from './../../_models/joboffer';
 import { Student } from './../../_models/student';
-import { getProfileImage } from 'src/app/_helpers/utils';
 
 @Component({
   selector: 'app-home',

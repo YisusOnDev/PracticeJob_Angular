@@ -1,9 +1,9 @@
-import { NotificationService } from './../../_services/notification.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/auth.service';
+import { NotificationService } from './../../_services/notification.service';
 
 @Component({
   selector: 'app-complete-profile',

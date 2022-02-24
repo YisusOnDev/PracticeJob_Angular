@@ -29,6 +29,12 @@
         <mat-icon mat-list-icon class="material-icons">home</mat-icon>
         <a mat-line>Inicio</a>
       </mat-list-item>
+      <div *ngIf="premiumService.getCurrentPlanValue == 'premium'">
+        <mat-list-item routerLinkActive="active-list-item" routerLink="userlisting">
+          <mat-icon mat-list-icon class="material-icons">recent_actors</mat-icon>
+          <a mat-line>Lista de Usuarios</a>
+        </mat-list-item>
+      </div>
       <mat-list-item routerLinkActive="active-list-item" routerLink="profile">
         <mat-icon mat-list-icon class="material-icons">account_circle</mat-icon>
         <a mat-line>Mi perfil</a>

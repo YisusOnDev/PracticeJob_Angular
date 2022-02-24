@@ -1,8 +1,9 @@
-import { AuthenticationService } from 'src/app/_services/auth.service';
-import { PremiumService } from './../../_services/premium.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_services/auth.service';
 import { NotificationService } from 'src/app/_services/notification.service';
+import { PremiumService } from './../../_services/premium.service';
 
 @Component({
   selector: 'app-buypremium',
@@ -11,9 +12,19 @@ import { NotificationService } from 'src/app/_services/notification.service';
 })
 export class BuyPremiumComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService, private premiumService: PremiumService, private notificationService: NotificationService) { }
+  constructor(private router: Router, private authService: AuthenticationService, private premiumService: PremiumService, private notificationService: NotificationService) { }
 
   ngOnInit() {
+    this.premiumService.hasPremiumPlan(this.authService.currentCompanyValue)
+      .pipe(first())
+      .subscribe({
+        next: (result) => {
+          if (result != false) {
+            this.router.navigate(['home']);
+            return;
+          }
+        }
+      });
   }
 
   buyPremium() {

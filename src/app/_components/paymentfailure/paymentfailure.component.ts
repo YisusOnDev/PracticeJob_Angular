@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/_services/auth.service';
+import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/_services/notification.service';
-import { PremiumService } from '../../_services/premium.service';
 
 @Component({
   selector: 'app-paymentfailure',

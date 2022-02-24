@@ -1,3 +1,58 @@
-<p>
-  If you're premium, u should see this, if you not then.. FUCK!.
-</p>
+<div class="grid-container">
+  <h1 class="mat-h1">Acceso Premium</h1>
+  <mat-card class=".dashboard-card mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title>
+        Listado de Usuarios
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="searchFilter" novalidate (ngSubmit)="onSubmit()" [formGroup]="searchForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Ciclo Formativo</mat-label>
+          <mat-select formControlName="fp">
+            <mat-option>Selecciona una FP</mat-option>
+            <mat-option *ngFor="let fp of fpList" [value]="fp">
+              {{fp.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Provincia</mat-label>
+          <mat-select formControlName="province">
+            <mat-option>Selecciona una provincia</mat-option>
+            <mat-option *ngFor="let province of provinceList" [value]="province">
+              {{province.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-fab color="primary" aria-label="Buscar usando los filtros seleccionados">
+          <mat-icon>person_search</mat-icon>
+        </button>
+      </form>
+
+      <div *ngIf="studentList != undefined && studentList.length > 0" class="expanded-card">
+        <hr>
+        <div id="scroll-container">
+          <div id="flex-scroll">
+            <mat-card *ngFor="let u of studentList" class="card card-color">
+              <div class="card__title">
+                <img class="card__icon" src="{{getProfileImage(u.profileImage, 'student')}}">
+                <student-fullname class="card__name">
+                  <p class="card__details">Edad: {{getAgeFromDate(u.birthDate)}} años</p>
+                  <p class="card__details">Localización: {{u.city}}, {{u.province.name}}</p>
+                  <p class="card__details">FP: {{u.fp.name}}</p>
+                  <p class="card__details">Nota media: {{u.fpCalification}}</p>
+                </student-fullname>
+              </div>
+              <button mat-fab color="white" aria-label="Enviar mensaje al estudiante" (click)="contactStudentPrompt(u)">
+                <mat-icon>send</mat-icon>
+              </button>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="studentList == undefined || studentList.length == 0">Sin resultados</div>
+    </mat-card-content>
+  </mat-card>
+</div>

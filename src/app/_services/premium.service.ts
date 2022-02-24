@@ -1,4 +1,4 @@
-import { AuthenticationService } from 'src/app/_services/auth.service';
+import { PrivateMessage } from './../_models/privatemessage';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -65,6 +65,43 @@ export class PremiumService {
                         return body.url;
                     }
                     return null;
+                })
+            );
+    }
+
+    searchStudents(company: Company, filter: string, fpId?: number, provinceId?: number) {
+        var endpoint = 'Student/';
+        switch (filter) {
+            case 'all':
+                endpoint += `GetAllPremiumFPAndProvince?fpId=${fpId}&provinceId=${provinceId}`;
+                break;
+            case 'fp':
+                endpoint += `GetAllPremiumFP?fpId=${fpId}`;
+                break;
+            case 'province':
+                endpoint += `GetAllPremiumProvince?provinceId=${provinceId}`
+                break;
+        }
+        const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+        var jsonToSend = JSON.stringify(company);
+        return this.http.post<any>(`${environment.apiUrl}/${endpoint}`, jsonToSend, { headers, observe: 'response' })
+            .pipe(
+                map((response: any) => {
+                    if (response.body == '') {
+                        return 'empty';
+                    }
+                    return response.body;
+                })
+            );
+    }
+
+    messageStudent(privateMessage: PrivateMessage) {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+        var jsonToSend = JSON.stringify(privateMessage);
+        return this.http.post<any>(`${environment.apiUrl}/PrivateMessage/SendMessage`, jsonToSend, { headers, observe: 'response' })
+            .pipe(
+                map((response: any) => {
+                    return response.body;
                 })
             );
     }
