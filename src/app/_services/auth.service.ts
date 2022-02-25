@@ -1,10 +1,10 @@
-import { PremiumService } from './premium.service';
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Company } from '../_models/company';
+import { PremiumService } from './premium.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -232,7 +232,7 @@ export class AuthenticationService {
     }
 
     /**
-     * 
+     * API POST Method that generates an stripeId for the customer and return a company object for updating current one with updated values
      * @param company Company object
      * @returns true if created and saved false if something fails
      */
