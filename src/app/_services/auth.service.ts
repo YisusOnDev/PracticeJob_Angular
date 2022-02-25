@@ -232,6 +232,31 @@ export class AuthenticationService {
     }
 
     /**
+     * 
+     * @param company Company object
+     * @returns true if created and saved false if something fails
+     */
+    createStripeAccount(company: Company) {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+        var jsonToSend = JSON.stringify(company);
+        return this.http.post<any>(`${environment.apiUrl}/Stripe/CreateAccount`, jsonToSend, { headers, observe: 'response' })
+            .pipe(
+                map((response: any) => {
+                    const body = response.body;
+                    // Map result to a company object
+                    var company = body;
+                    if (company instanceof Company) {
+                        // Store company details with his new stripeId
+                        localStorage.setItem('company', JSON.stringify(company));
+                        this.currentCompanySubject.next(company);
+                        return true
+                    }
+                    return false
+                })
+            );
+    }
+
+    /**
      * API POST Request method that check if user token is valid
      * @returns token valid or not
      */
@@ -241,7 +266,7 @@ export class AuthenticationService {
 
         return this.http.post<any>(`${environment.apiUrl}/Company/Authorized`, { companyJson }, { headers })
             .pipe(map(result => {
-                
+
                 return result;
             }));
     }

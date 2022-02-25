@@ -78,20 +78,35 @@ export class ConfirmAccountComponent implements OnInit {
           if (result.validatedEmail == true) {
             this.notificationService.showSuccess("Has verificado tu cuenta correctamente", "Cuenta verificada");
             if (this.requestingPremium) {
-              this.premiumService.generatePayLink(this.authenticationService.currentCompanyValue)
+              this.authenticationService.createStripeAccount(this.authenticationService.currentCompanyValue)
                 .pipe(first())
                 .subscribe({
                   next: (result) => {
-                    if (result == null) {
+                    if (result == true) {
+                      this.premiumService.generatePayLink(this.authenticationService.currentCompanyValue)
+                        .pipe(first())
+                        .subscribe({
+                          next: (result) => {
+                            if (result == null) {
+                              this.router.navigate(['home']);
+                              this.notificationService.showError("Ha ocurrido un error al intentar generar el enlace de pago de su suscripción.", "Error");
+                              return;
+                            }
+                            window.location.href = result;
+                          },
+                          error: () => {
+                            this.router.navigate(['home']);
+                            this.notificationService.showError("Ha ocurrido un error al intentar generar el enlace de pago de su suscripción.", "Error");
+                          }
+                        });
+                    } else {
                       this.router.navigate(['home']);
-                      this.notificationService.showError("Ha ocurrido un error al intentar generar el enlace de pago de su suscripción.", "Error");
-                      return;
+                      this.notificationService.showGenericError();
                     }
-                    window.location.href = result;
                   },
                   error: () => {
                     this.router.navigate(['home']);
-                    this.notificationService.showError("Ha ocurrido un error al intentar generar el enlace de pago de su suscripción.", "Error");
+                    this.notificationService.showGenericError();
                   }
                 });
             } else {
