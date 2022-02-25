@@ -245,7 +245,7 @@ export class AuthenticationService {
                     const body = response.body;
                     // Map result to a company object
                     var company = body;
-                    if (company instanceof Company) {
+                    if (company) {
                         // Store company details with his new stripeId
                         localStorage.setItem('company', JSON.stringify(company));
                         this.currentCompanySubject.next(company);
