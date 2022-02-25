@@ -18,9 +18,11 @@ export class PaymentSuccessComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       let session_id = params['session_id'];
       if (session_id == undefined) {
+        /// If not session_id defined then return home (invalid request or manual entered url)
         this.router.navigate(['home']);
         return;
       }
+      /// Check premium status and set it in memory
       this.premiumService.hasPremiumPlan(this.authService.currentCompanyValue)
         .pipe(first())
         .subscribe({

@@ -1,3 +1,4 @@
+import { PremiumService } from './../../_services/premium.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,7 +28,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private provinceService: ProvinceService,
     private authenticationService: AuthenticationService,
-    private notificationService: NotificationService) {
+    private notificationService: NotificationService,
+    private premiumService: PremiumService) {
     this.authenticationService.currentCompany.subscribe(x => this.currentCompany = x);
   }
 
@@ -98,4 +100,7 @@ export class ProfileComponent implements OnInit {
     return getProfileImage(image, type);
   }
 
+  needPremiumIcon() {
+    return this.premiumService.getCurrentPlanValue == 'premium';
+  }
 }

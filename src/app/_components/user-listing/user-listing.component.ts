@@ -1,10 +1,10 @@
-import { PrivateMessage } from './../../_models/privatemessage';
-import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { getProfileImage } from 'src/app/_helpers/utils';
+import { ContactStudentModal } from 'src/app/_modals/contact-student/contact-student.modal';
 import { FP } from 'src/app/_models/fp';
 import { Province } from 'src/app/_models/province';
 import { Student } from 'src/app/_models/student';
@@ -12,8 +12,8 @@ import { AuthenticationService } from 'src/app/_services/auth.service';
 import { FPService } from 'src/app/_services/fp.service';
 import { NotificationService } from 'src/app/_services/notification.service';
 import { ProvinceService } from 'src/app/_services/province.service';
+import { PrivateMessage } from './../../_models/privatemessage';
 import { PremiumService } from './../../_services/premium.service';
-import { ContactStudentModal } from 'src/app/_modals/contact-student/contact-student.modal';
 
 @Component({
   selector: 'app-user-listing',

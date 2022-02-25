@@ -24,6 +24,8 @@ export class ConfirmAccountComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private premiumService: PremiumService,
     private notificationService: NotificationService) {
+
+      /// Handle if user requesting premium by reading url parameters
     this.activatedRoute.paramMap.subscribe(params => {
       var urlParam = params.get('premium');
       if (urlParam) {
@@ -77,6 +79,7 @@ export class ConfirmAccountComponent implements OnInit {
         next: (result) => {
           if (result.validatedEmail == true) {
             this.notificationService.showSuccess("Has verificado tu cuenta correctamente", "Cuenta verificada");
+            /// If user is interested in premium plan we need to generate his user and if all ok, prompt an stripe payment link
             if (this.requestingPremium) {
               this.authenticationService.createStripeAccount(this.authenticationService.currentCompanyValue)
                 .pipe(first())

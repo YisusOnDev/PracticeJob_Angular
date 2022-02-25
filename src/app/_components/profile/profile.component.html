@@ -4,7 +4,11 @@
     <div fxLayout="row" fxLayout.xs="column">
       <mat-card fxFlex="40%;" fxFlex.xs="80%">
         <mat-card-header>
-          <mat-card-title>Empresa: {{currentCompany.name}}</mat-card-title>
+          <mat-card-title>
+            Empresa: {{currentCompany.name}}
+            <mat-icon matSuffix *ngIf="needPremiumIcon">verified_user
+            </mat-icon>
+          </mat-card-title>
         </mat-card-header>
         <mat-card-content>
           Dirección: {{currentCompany.address}} - {{currentCompany.province?.name}}
@@ -12,15 +16,15 @@
       </mat-card>
       <mat-card fxFlex="60%;" fxFlex.xs="80%">
         <mat-card-content>
-          
+
           <mat-card-title style="text-align:left;">Editar perfil</mat-card-title>
           <mat-card-content>
             <label class="hoverable" for="fileInput">
-              <img src="{{getProfileImage(currentCompany.profileImage, 'company')}}"> 
+              <img src="{{getProfileImage(currentCompany.profileImage, 'company')}}">
               <div class="hover-text">Seleccionar imagen</div>
               <div class="background"></div>
             </label>
-            <br/>
+            <br />
             <input id="fileInput" type='file' (change)="onSelectFile($event)">
             <form novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
               <mat-card-content>
