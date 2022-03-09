@@ -25,7 +25,7 @@ export class ConfirmAccountComponent implements OnInit {
     private premiumService: PremiumService,
     private notificationService: NotificationService) {
 
-      /// Handle if user requesting premium by reading url parameters
+    /// Handle if user requesting premium by reading url parameters
     this.activatedRoute.paramMap.subscribe(params => {
       var urlParam = params.get('premium');
       if (urlParam) {
@@ -80,12 +80,12 @@ export class ConfirmAccountComponent implements OnInit {
           if (result.validatedEmail == true) {
             this.notificationService.showSuccess("Has verificado tu cuenta correctamente", "Cuenta verificada");
             /// If user is interested in premium plan we need to generate his user and if all ok, prompt an stripe payment link
-            if (this.requestingPremium) {
-              this.authenticationService.createStripeAccount(this.authenticationService.currentCompanyValue)
-                .pipe(first())
-                .subscribe({
-                  next: (result) => {
-                    if (result == true) {
+            this.authenticationService.createStripeAccount(this.authenticationService.currentCompanyValue)
+              .pipe(first())
+              .subscribe({
+                next: (result) => {
+                  if (result == true) {
+                    if (this.requestingPremium) {
                       this.premiumService.generatePayLink(this.authenticationService.currentCompanyValue)
                         .pipe(first())
                         .subscribe({
@@ -104,17 +104,17 @@ export class ConfirmAccountComponent implements OnInit {
                         });
                     } else {
                       this.router.navigate(['home']);
-                      this.notificationService.showGenericError();
                     }
-                  },
-                  error: () => {
+                  } else {
                     this.router.navigate(['home']);
                     this.notificationService.showGenericError();
                   }
-                });
-            } else {
-              this.router.navigate(['home']);
-            }
+                },
+                error: () => {
+                  this.router.navigate(['home']);
+                  this.notificationService.showGenericError();
+                }
+              });
           } else {
             this.notificationService.showError("El código introducido es incorrecto", "Código inválido");
           }

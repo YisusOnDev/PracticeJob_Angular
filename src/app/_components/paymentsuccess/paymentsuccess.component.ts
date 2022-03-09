@@ -31,7 +31,13 @@ export class PaymentSuccessComponent implements OnInit {
             if (result == true) {
               this.premiumService.setCurrentPlanValue('premium')
             } else {
-              this.premiumService.setCurrentPlanValue('free')
+              if (this.authService.currentCompanyValue.stripeId == null) {
+                this.authService.logout();
+                this.router.navigate(['login']);
+                this.notificationService.showInfo("Para confirmar tu subscripción tendrás que iniciar sesión de nuevo", "Reactivar subscripción");
+              } else {
+                this.premiumService.setCurrentPlanValue('free')
+              }
             }
           },
           error: () => {
