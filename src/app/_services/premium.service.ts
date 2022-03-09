@@ -46,6 +46,7 @@ export class PremiumService {
                     if (body == null) {
                         return false;
                     }
+                    console.log("New premium status: " + body);
                     return body;
                 })
             );
