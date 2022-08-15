@@ -22,7 +22,7 @@
 > "PracticeJob" is an application which allows students to search for a suitable internship placement. It also allows companies to search for students for internships based on their studies, notes. It includes features such as: premium packages for companies, messaging system, ad boost, among other things.
 
 ## Install
-
+First remember to change environment values to your own
 ```sh
 npm install
 ```
