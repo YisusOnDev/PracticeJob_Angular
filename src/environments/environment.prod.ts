@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://apipracticejob.yisus.dev/api',
-  serverRoot: 'https://apipracticejob.yisus.dev/profile_images/'
+  apiUrl: 'https://api.practicejob.website/api',
+  serverRoot: 'https://practicejob.website/profile_images/'
 };
