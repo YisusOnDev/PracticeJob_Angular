@@ -6,7 +6,7 @@
   <a href="https://github.com/kefranabg/readme-md-generator/graphs/commit-activity" target="_blank">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-no-red.svg" />
   </a>
-  <a href="https://twitter.com/YisusTM\_01" target="_blank">
+  <a href="https://twitter.com/YisusTM_01" target="_blank">
     <img alt="Twitter: YisusTM_01" src="https://img.shields.io/twitter/follow/YisusTM_01.svg?style=social" />
   </a>
 </p>
